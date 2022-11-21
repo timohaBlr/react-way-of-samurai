@@ -1,0 +1,18 @@
+.wrapper {
+display: grid;
+grid-template-areas: 'ava info';
+    grid-template-columns: 180px auto;
+}
+.ava {
+text-align: start;
+    grid-area: ava;
+
+}
+.ava img {
+    height: 150px;
+    width: 150px;
+}
+.info {
+grid-area: info;
+    padding-top: 20px;
+}

@@ -1,0 +1,18 @@
+.dialogs_wrapper {
+display: grid;
+    grid-template-columns: 2fr 3fr;
+    grid-template-areas: 'd m';
+    padding: 10px;
+}
+.dialogs{
+grid-area: d;
+}
+.dialog{
+
+}
+.messages{
+grid-area: m;
+}
+.message{
+
+}

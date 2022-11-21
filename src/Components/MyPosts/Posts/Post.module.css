@@ -1,0 +1,19 @@
+.wrapper {
+    display: grid;
+    grid-template-areas: 'ava text';
+
+
+    grid-template-columns: 80px 1fr;
+}
+.ava {
+width: 50px;
+    border-radius: 50%;
+    background-color: yellow;
+margin: 5px;
+}
+.text{
+    grid-area: text;
+}
+.likes{
+    grid-area: likes;
+}

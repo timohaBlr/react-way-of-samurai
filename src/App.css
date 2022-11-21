@@ -1,0 +1,36 @@
+.App {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 2fr 10fr;
+    grid-template-areas: 'h h'
+'nav c';
+
+}
+
+.header {
+    grid-area: h;
+    background-color: green;
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 10px;
+}
+
+.header img {
+    width: 20px;
+}
+
+.navbar {
+    grid-area: nav;
+    background-color: darkcyan;
+    margin-right: 5px;
+}
+
+.content {
+    grid-area: c;
+    background-color: violet;
+}
+
+
+
+
+
