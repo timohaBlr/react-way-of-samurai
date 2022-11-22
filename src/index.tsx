@@ -8,9 +8,10 @@ import state from "./redux/State";
 
 ReactDOM.render(
     <App
-    user={state.profilePage.user}
+        state={state}
+   /* user={state.profilePage.user}
     dialogs={state.dialogsPage.dialogs}
     messages={state.dialogsPage.messages}
-    posts={state.profilePage.posts}/>,
+    posts={state.profilePage.posts}*//>,
     document.getElementById('root')
 );
