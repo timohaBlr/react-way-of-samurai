@@ -1,7 +1,7 @@
 .App {
     display: grid;
     grid-template-columns: 2fr 10fr;
-    grid-template-rows: 2fr 10fr;
+    grid-template-rows: 100px 10fr;
     grid-template-areas: 'h h'
 'nav c';
 

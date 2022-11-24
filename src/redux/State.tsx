@@ -1,3 +1,5 @@
+import {rerenderEntireTree} from "./rerender";
+
 export type UserType = {
     name: string
     dateOfBirth: string
@@ -43,11 +45,10 @@ const state: StateType = {
             },
         posts: [
             {id: 1, message: 'Hello', likesCount: 4},
-            {id: 1, message: 'Bonjour', likesCount: 5},
-            {id: 1, message: 'Privet', likesCount: 6},
+            {id: 2, message: 'Bonjour', likesCount: 5},
+            {id: 3, message: 'Privet', likesCount: 6},
         ],
     },
-
     dialogsPage: {
         dialogs: [
             {id: 1, user: 'Andrew'},
@@ -64,6 +65,10 @@ const state: StateType = {
             {id: 4, message: 'May be Rest API?'},
         ],
     }
+}
+
+export const addPost = (postText: string) => {
+  state.profilePage.posts.push({id: state.profilePage.posts.length, message: postText, likesCount: 0})
 
 }
 export default state;

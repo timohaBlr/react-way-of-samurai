@@ -11,6 +11,10 @@ type DialogsPropsType = {
 }
 
 export const Dialogs = (props: DialogsPropsType) => {
+    let newPostElement = React.createRef<HTMLTextAreaElement>();
+    const func = () => {
+        alert(newPostElement.current?.value)
+    }
     return (
         <div className={s.dialogs_wrapper}>
             <div className={s.dialogs}>
@@ -20,7 +24,8 @@ export const Dialogs = (props: DialogsPropsType) => {
             <div className={s.messages}>
                 {props.state.messages.map(message =>  <Message message={message.message}
                 id={message.id}/>)}
-
+                <div><textarea ref={newPostElement}></textarea></div>
+                <button onClick={func}>x</button>
             </div>
         </div>
     );

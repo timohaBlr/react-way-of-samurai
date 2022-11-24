@@ -12,6 +12,7 @@ import {DialogsType, MessagesType, PostsType, StateType, UserType} from "./redux
 
 type AppPropsType = {
     state: StateType
+    addPost:(postText:string)=> void
     /*user: UserType
     dialogs:Array<DialogsType>
     messages: Array<MessagesType>
@@ -27,6 +28,7 @@ function App(props: AppPropsType) {
                 <div className={'content'}>
                     <Routes>
                         <Route path="/profile" element={<Profile state={props.state.profilePage}
+                                                                 addPost={props.addPost}
                             /*user={props.user}
                             posts={props.posts}*/
                         />}/>
