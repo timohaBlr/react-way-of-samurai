@@ -6,7 +6,9 @@ import {PostsType} from "../../redux/State";
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    addPost:(postText:string)=> void
+    addPost: (postText: string) => void
+    updateTextArea: (value: string) => void
+    textArea: string
 }
 
 const MyPosts = (props: MyPostsPropsType) => {
@@ -14,10 +16,14 @@ const MyPosts = (props: MyPostsPropsType) => {
     return (
         <div>
             <h3>My posts:</h3>
-            <div><NewPost addPost={props.addPost}/></div>
-            {props.posts.map(post => <div><Post message={post.message}
-                                                autor={post.id}
-                                                likesCount={post.likesCount}/></div>)}
+            <div><NewPost addPost={props.addPost}
+                          textArea={props.textArea}
+                          updateTextArea={props.updateTextArea}
+            /></div>
+            {props.posts.map(post =>
+                <div key={post.id}><Post message={post.message}
+                                         author={post.id}
+                                         likesCount={post.likesCount}/></div>)}
 
         </div>
 
