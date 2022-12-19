@@ -2,24 +2,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import store, {addPost, updateTextArea, StateType} from "./redux/State";
+import store from "./redux/State";
 
 
-
-let renderPage =(state: StateType) => {
+let renderPage =() => {
     ReactDOM.render(
         <App
-            state={state}
-            addPost={addPost}
-            updateTextArea={updateTextArea}
-            /* user={state.profilePage.user}
-      dialogs={state.dialogsPage.dialogs}
-      messages={state.dialogsPage.messages}
-      posts={state.profilePage.posts}  */ />,
+            state={store.getState()}
+            addPost={store.addPost.bind(store)}
+            updateTextArea={store.updateTextArea.bind(store)}
+            />,
         document.getElementById('root')
     );
 }
+//store.subscribe()
+renderPage();
 store.subscribe(renderPage)
-renderPage(store.getState())
+
 
 

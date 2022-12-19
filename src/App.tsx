@@ -8,16 +8,12 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Music from "./Components/Music/Music";
 import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
-import {DialogsType, MessagesType, PostsType, StateType, updateTextArea, UserType} from "./redux/State";
+import {StateType} from "./redux/State";
 
 type AppPropsType = {
     state: StateType
     addPost: (postText: string) => void
     updateTextArea: (value: string) => void
-    /*user: UserType
-   dialogs:Array<DialogsType>
-   messages: Array<MessagesType>
-   posts: Array<PostsType>*/
 }
 
 function App(props: AppPropsType) {
