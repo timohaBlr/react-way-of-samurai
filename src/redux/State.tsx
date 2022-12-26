@@ -1,4 +1,5 @@
 import {newPostReducer} from "./reducers/new-post-reducer";
+import {dialogsAddReducer} from "./reducers/dialogs-add";
 
 export type UserType = {
     name: string
@@ -95,6 +96,7 @@ const store: StoreType = {
     },
     dispatch(action) {
         newPostReducer(this._state.profilePage, action)
+        dialogsAddReducer(this._state.dialogsPage, action)
         this._subscriber();
     },
 }

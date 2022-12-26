@@ -10,15 +10,18 @@ export const textAreaActionCreator = (value: string) => {
 }
 
 export const newPostReducer = (state: profilePageType, action: ActionType) => {
-    if (action.type === 'UPDATE_TEXT_AREA') {
-        state.newPostText = action.value!;
-
-    } else if (action.type === 'ADD_POST') {
-        state.posts.push({
-            id: state.posts.length + 1,
-            message: state.newPostText,
-            likesCount: 5,
-        });
-        state.newPostText = '';
+    switch (action.type) {
+        case 'UPDATE_TEXT_AREA':
+            state.newPostText = action.value!;
+            return state;
+        case 'ADD_POST':
+            state.posts.push({
+                id: state.posts.length + 1,
+                message: state.newPostText,
+                likesCount: 5,
+            });
+            state.newPostText = '';
+            return state;
+        default: return state;
     }
 }
