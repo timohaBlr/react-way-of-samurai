@@ -5,17 +5,16 @@ import App from './App';
 import store from "./redux/State";
 
 
-let renderPage =() => {
+let renderPage = () => {
     ReactDOM.render(
         <App
             state={store.getState()}
-            addPost={store.addPost.bind(store)}
-            updateTextArea={store.updateTextArea.bind(store)}
-            />,
+            dispatch={store.dispatch.bind(store)}
+        />,
         document.getElementById('root')
     );
 }
-//store.subscribe()
+
 renderPage();
 store.subscribe(renderPage)
 

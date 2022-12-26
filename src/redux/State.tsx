@@ -1,3 +1,5 @@
+import {newPostReducer} from "./reducers/new-post-reducer";
+
 export type UserType = {
     name: string
     dateOfBirth: string
@@ -26,19 +28,27 @@ export type profilePageType = {
 export type dialogsPageType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
+    newMessage: string
 }
 export type StateType = {
     profilePage: profilePageType
     dialogsPage: dialogsPageType
+}
+export type ActionType = {
+    type: string
+    value?: string
 }
 export type StoreType = {
     _subscriber: () => void
     _state: StateType
     getState: () => StateType
     subscribe: (observer: () => void) => void
-    updateTextArea: (value: string) => void
-    addPost: (postText: string) => void
+    /*updateTextArea: (value: string) => void
+    addPost: (postText: string) => void*/
+    dispatch: (action: ActionType) => void
 }
+
+
 const store: StoreType = {
     _subscriber() {
     },
@@ -74,6 +84,7 @@ const store: StoreType = {
                 {id: 3, message: 'Do you know react?'},
                 {id: 4, message: 'May be Rest API?'},
             ],
+            newMessage: '',
         }
     },
     getState() {
@@ -82,18 +93,10 @@ const store: StoreType = {
     subscribe(observer) {
         this._subscriber = observer;
     },
-    updateTextArea(value: string) {
-        this._state.profilePage.newPostText = value;
-                this._subscriber();
+    dispatch(action) {
+        newPostReducer(this._state.profilePage, action)
+        this._subscriber();
     },
-    addPost(postText: string) {
-        this._state.profilePage.posts.push({
-            id: this._state.profilePage.posts.length + 1, message: postText, likesCount: 5,
-        });
-        console.log(this._state.profilePage.posts)
-        this._state.profilePage.newPostText = '';
-                this._subscriber();
-    }
 }
 
 export default store;
