@@ -1,15 +1,15 @@
 import React from 'react';
 import s from './User.module.css'
-import {UserType} from "../../../redux/State";
+import {UserType} from "../../../redux/store";
 
 
 type UserPropsType = {
     user:UserType
 }
 export const User = (props:UserPropsType) => {
-    return (
+        return (
         <div className={s.wrapper}>
-            <span className={s.ava}><img src={require('../../../images/ava.png')}/></span>
+            <span className={s.ava}><img src={require('../../../images/ava.png')} alt={'bla'}/></span>
             <span className={s.info}>
                 <div>User name: {props.user.name}</div>
                 <div>Date of birth:{props.user.dateOfBirth}</div>

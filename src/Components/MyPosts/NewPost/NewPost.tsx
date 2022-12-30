@@ -1,11 +1,11 @@
 import React from 'react';
-import { buttonActionCreator, textAreaActionCreator} from "../../../redux/reducers/new-post-reducer";
-import {ActionType} from "../../../redux/State";
+
 
 type NewPostPropsType = {
-
+    updateTexArea: (value: string) => void
+    addPost: () => void
     textArea: string
-    dispatch: (action: ActionType) => void
+
 }
 
 
@@ -14,13 +14,12 @@ const NewPost = (props: NewPostPropsType) => {
     const newPostElement = React.createRef<HTMLTextAreaElement>()
 
     const buttonOnClickHandler = () => {
-        props.dispatch(buttonActionCreator())
+        props.addPost()
     }
     const onChangeHandler = () => {
 
         if (newPostElement.current?.value) {
-
-            props.dispatch(textAreaActionCreator(newPostElement.current.value))
+            props.updateTexArea(newPostElement.current.value)
         }
     }
     return (

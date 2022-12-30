@@ -2,30 +2,33 @@ import React, {ChangeEvent} from 'react';
 import s from './Dialogs.module.css'
 import {Message} from "./Message";
 import {DialogItem} from "./DialogItem";
-import {ActionsType, dialogsPageType} from "../../redux/store";
+import {StateType} from "../../redux/store";
 import {buttonActionCreator, textAreaActionCreator} from "../../redux/reducers/dialogs-add-reducer";
+import {ReduxStoreType} from "../../redux/redux-store";
 
 type DialogsPropsType = {
-    state: dialogsPageType
-    dispatch: (action: ActionsType) => void
+    store: ReduxStoreType
+    /*state: dialogsPageType
+    dispatch: (action: ActionsType) => void*/
 
 }
 
-export const Dialogs = (props: DialogsPropsType) => {
+export const DialogsContainer = (props: DialogsPropsType) => {
+    const state = props.store.getState() as StateType
     const onClickAddHandler = () => {
 
-        props.dispatch(buttonActionCreator())
+        props.store.dispatch(buttonActionCreator())
     }
     const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let value = e.currentTarget.value
         if (value) {
-            props.dispatch(textAreaActionCreator(value));
+            props.store.dispatch(textAreaActionCreator(value));
         }
     }
     return (
         <div className={s.dialogs_wrapper}>
             <div className={s.dialogs}>
-                {props.state.dialogs.map(dialog =>
+                {state.dialogsPage.dialogs.map(dialog =>
                     <DialogItem
                         user={dialog.user}
                         id={dialog.id}
@@ -33,14 +36,14 @@ export const Dialogs = (props: DialogsPropsType) => {
                 )}
             </div>
             <div className={s.messages}>
-                {props.state.messages.map(message =>
+                {state.dialogsPage.messages.map(message =>
                     <Message
                         message={message.message}
                         id={message.id}
                     />
                 )}
                 <textarea onChange={onChangeHandler}
-                          value={props.state.newMessage}>
+                          value={state.dialogsPage.newMessage}>
                 </textarea>
                 <button onClick={onClickAddHandler}>Add</button>
             </div>
@@ -48,4 +51,4 @@ export const Dialogs = (props: DialogsPropsType) => {
     );
 };
 
-export default Dialogs;
+export default DialogsContainer;
