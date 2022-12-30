@@ -9,6 +9,7 @@ import Settings from "./Components/Settings/Settings";
 import {ReduxStoreType} from "./redux/redux-store";
 import ProfileContainer from "./Components/Profile/ProfileContainer";
 import DialogsContainer from "./Components/Dialogs/DialogsContainer";
+import StoreContext from "./StoreContext";
 
 type AppPropsType = {
     /*state: StateType
