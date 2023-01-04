@@ -1,7 +1,7 @@
 import React from 'react';
-import NewPost from "./NewPost/NewPost";
-import Post from "./Posts/Post";
-import { PostsType} from "../../redux/store";
+import {NewPost} from "./NewPost/NewPost";
+import {Post} from "./Posts/Post";
+import {PostsType} from "../../redux/reducers/new-post-reducer";
 
 
 type MyPostsPropsType = {
@@ -9,9 +9,10 @@ type MyPostsPropsType = {
     textArea: string
     updateTexArea: (value: string) => void
     addPost: () => void
+    value: string
 }
 
-const MyPosts = (props: MyPostsPropsType) => {
+export const MyPosts =React.memo( (props: MyPostsPropsType) => {
 
     return (
         <div>
@@ -20,18 +21,19 @@ const MyPosts = (props: MyPostsPropsType) => {
                 <NewPost textArea={props.textArea}
                          updateTexArea={props.updateTexArea}
                          addPost={props.addPost}
+                         value={props.value}
                 />
             </div>
             {props.posts.map(post =>
                 <div key={post.id}>
                     <Post message={post.message}
                           author={post.id}
-                          likesCount={post.likesCount}/></div>)}
+                          likesCount={post.likesCount}/>
+                </div>)}
 
         </div>
 
     );
-};
+});
 
-export default MyPosts;
 

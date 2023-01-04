@@ -1,6 +1,8 @@
 .App {
+    max-width: 1700px;
+    margin: auto;
     display: grid;
-    grid-template-columns: 2fr 10fr;
+    grid-template-columns: 100px 1fr;
     grid-template-rows: 100px 10fr;
     grid-template-areas: 'h h'
 'nav c';
@@ -13,6 +15,7 @@
     margin-bottom: 10px;
     text-align: left;
     padding: 10px;
+    border-radius: 10px;
 }
 
 .header img {
@@ -23,11 +26,14 @@
     grid-area: nav;
     background-color: darkcyan;
     margin-right: 5px;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .content {
     grid-area: c;
     background-color: violet;
+    border-radius: 10px;
 }
 
 

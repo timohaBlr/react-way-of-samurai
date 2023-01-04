@@ -1,0 +1,51 @@
+.userWrapper {
+    height: 150px;
+    width: 600px;
+    background-color: #76a8d5;
+    border-radius: 10px;
+    border: 3px solid blueviolet;
+    margin: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.avaAndButton {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ava img {
+    width: 100px;
+    border-radius: 50%;
+}
+
+.button {
+
+}
+
+.userInfo {
+    width: inherit;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info {
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.info :first-child{
+    font-size: 26px;
+}
+
+.location {
+    font-size: 20px;
+    padding: 5px;
+    text-align: end;
+    display: flex;
+    flex-direction: column;
+}
+

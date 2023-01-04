@@ -5,15 +5,23 @@ import s from './Navbar.module.css'
 export const Navbar = () => {
     return (
         <div>
-            <div><NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/profile'> Profile</NavLink>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/profile'> Profile</NavLink>
             </div>
-            <div><NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/dialogs'>Messages</NavLink>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/dialogs'>Messages</NavLink>
             </div>
-            <div><NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/news'>News</NavLink>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/news'>News</NavLink>
             </div>
-            <div><NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/music'>Music</NavLink>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/music'>Music</NavLink>
             </div>
-            <div><NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/settings'>Settings</NavLink>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/settings'>Settings</NavLink>
+            </div>
+            <div>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/users'>Users</NavLink>
             </div>
         </div>
     );

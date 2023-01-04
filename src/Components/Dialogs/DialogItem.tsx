@@ -9,11 +9,11 @@ type DialogItemProsType = {
 }
 
 
-export const DialogItem = (props: DialogItemProsType) => {
+export const DialogItem =React.memo( (props: DialogItemProsType) => {
     const path = '/dialogs/' + props.id
     return (
         <div className={s.dialog}>
             <NavLink to={path}>{props.user}</NavLink>
         </div>
     )
-}
+});

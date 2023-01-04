@@ -1,54 +1,32 @@
-import React, {ChangeEvent} from 'react';
-import s from './Dialogs.module.css'
-import {Message} from "./Message";
-import {DialogItem} from "./DialogItem";
-import {StateType} from "../../redux/store";
-import {buttonActionCreator, textAreaActionCreator} from "../../redux/reducers/dialogs-add-reducer";
-import {ReduxStoreType} from "../../redux/redux-store";
+import {connect} from "react-redux";
+import {AppDispatchType, AppStateType} from "../../redux/hooks";
+import {Dialogs} from "./Dialogs";
+import {addNewMessageAC, DialogsInitialStateType, updateNewMessageAC} from "../../redux/reducers/dialogs-add-reducer";
+import React from "react";
 
-type DialogsPropsType = {
-    store: ReduxStoreType
-    /*state: dialogsPageType
-    dispatch: (action: ActionsType) => void*/
 
+
+export type MapStatePropsType = {
+    dialogsPage: DialogsInitialStateType
 }
-
-export const DialogsContainer = (props: DialogsPropsType) => {
-    const state = props.store.getState() as StateType
-    const onClickAddHandler = () => {
-
-        props.store.dispatch(buttonActionCreator())
+export type mapDispatchToProps = {
+    addMessage: () => void
+    updateTextArea: (value: string) =>void
+}
+const mapStateToProps = (state: AppStateType): MapStatePropsType => {
+    return {
+        dialogsPage: state.dialogsPage
     }
-    const onChangeHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        let value = e.currentTarget.value
-        if (value) {
-            props.store.dispatch(textAreaActionCreator(value));
+}
+const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
+    return {
+        addMessage: () => {
+            dispatch(addNewMessageAC())
+        },
+        updateTextArea: (value: string) => {
+            dispatch(updateNewMessageAC(value))
         }
-    }
-    return (
-        <div className={s.dialogs_wrapper}>
-            <div className={s.dialogs}>
-                {state.dialogsPage.dialogs.map(dialog =>
-                    <DialogItem
-                        user={dialog.user}
-                        id={dialog.id}
-                    />
-                )}
-            </div>
-            <div className={s.messages}>
-                {state.dialogsPage.messages.map(message =>
-                    <Message
-                        message={message.message}
-                        id={message.id}
-                    />
-                )}
-                <textarea onChange={onChangeHandler}
-                          value={state.dialogsPage.newMessage}>
-                </textarea>
-                <button onClick={onClickAddHandler}>Add</button>
-            </div>
-        </div>
-    );
-};
 
-export default DialogsContainer;
+    }
+}
+export const DialogsContainer =React.memo( connect(mapStateToProps, mapDispatchToProps)(Dialogs))

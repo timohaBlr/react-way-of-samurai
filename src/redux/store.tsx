@@ -1,51 +1,49 @@
-import {buttonActionCreator, ButtonActionType, newPostReducer, TextAreaActionType} from "./reducers/new-post-reducer";
+import {addNewPostAC,  newPostReducer} from "./reducers/new-post-reducer";
 import {dialogsAddReducer} from "./reducers/dialogs-add-reducer";
 
-export type UserType = {
+ type UserType = {
     name: string
     dateOfBirth: string
     city: string
     education: string
     website: string
 }
-export type DialogsType = {
+ type dialogsPageType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
+    newMessage: string
+}
+type DialogsType = {
     id: number
     user: string
 }
-export type MessagesType = {
+ type MessagesType = {
     id: number
     message: string
 }
-export type PostsType = {
+type PostsType = {
     id: number
     message: string
     likesCount: number
 }
-export type profilePageType = {
+type profilePageType = {
     user: UserType
     posts: Array<PostsType>
     newPostText: string
-}
-export type dialogsPageType = {
-    dialogs: Array<DialogsType>
-    messages: Array<MessagesType>
-    newMessage: string
 }
 export type StateType = {
     profilePage: profilePageType
     dialogsPage: dialogsPageType
 }
-export type ActionsType = TextAreaActionType | ButtonActionType
 
 
-export type StoreType = {
+
+type StoreType = {
     _subscriber: (state: StateType) => void
     _state: StateType
     getState: () => StateType
     subscribe: (observer: (state: StateType) => void) => void
-    /*updateTextArea: (value: string) => void
-    addPost: (postText: string) => void*/
-    dispatch: (action: ActionsType) => void
+    dispatch: (action: any) => void
 }
 
 
@@ -99,7 +97,7 @@ const store: StoreType = {
         this._subscriber(this._state);
     },
 }
-store.dispatch(buttonActionCreator())
+store.dispatch(addNewPostAC())
 
 export default store;
 

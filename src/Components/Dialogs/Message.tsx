@@ -1,4 +1,4 @@
-import React, {LegacyRef, RefObject} from 'react';
+import React from 'react';
 import s from './Dialogs.module.css'
 
 
@@ -8,11 +8,11 @@ type MessagePropsType = {
     id: number
 }
 
-export const Message = (props: MessagePropsType) => {
+export const Message =React.memo( (props: MessagePropsType) => {
 
     return (<div>
         <div key={props.id} className={s.message}>{props.message}</div>
 
         </div>
         )
-}
+})

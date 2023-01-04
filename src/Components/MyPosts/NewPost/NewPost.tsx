@@ -1,35 +1,29 @@
 import React from 'react';
+import {AddItemForm} from "../../Common/AddItemForm/AddItemForm";
 
 
 type NewPostPropsType = {
     updateTexArea: (value: string) => void
     addPost: () => void
     textArea: string
-
+    value: string
 }
 
 
-const NewPost = (props: NewPostPropsType) => {
-
-    const newPostElement = React.createRef<HTMLTextAreaElement>()
-
+export const NewPost = React.memo((props: NewPostPropsType) => {
     const buttonOnClickHandler = () => {
         props.addPost()
     }
-    const onChangeHandler = () => {
-
-        if (newPostElement.current?.value) {
-            props.updateTexArea(newPostElement.current.value)
-        }
+    const onChangeHandler = (value: string) => {
+        props.updateTexArea(value)
     }
     return (
         <div>
-            <textarea ref={newPostElement}
-                      onChange={onChangeHandler}
-                      value={props.textArea}/>
-            <button onClick={buttonOnClickHandler}>Send</button>
+            <AddItemForm onClick={buttonOnClickHandler}
+                         onChange={onChangeHandler}
+                         title={'Send'}
+                         value={props.value}
+            />
         </div>
     );
-};
-
-export default NewPost;
+});

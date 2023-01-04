@@ -1,13 +1,13 @@
 import React from 'react';
 import s from './User.module.css'
-import {UserType} from "../../../redux/store";
+import {UserType} from "../../../redux/reducers/new-post-reducer";
 
 
 type UserPropsType = {
-    user:UserType
+    user: UserType
 }
-export const User = (props:UserPropsType) => {
-        return (
+export const User =React.memo( (props: UserPropsType) => {
+    return (
         <div className={s.wrapper}>
             <span className={s.ava}><img src={require('../../../images/ava.png')} alt={'bla'}/></span>
             <span className={s.info}>
@@ -19,6 +19,5 @@ export const User = (props:UserPropsType) => {
             </span>
         </div>
     );
-};
+});
 
-export default User;

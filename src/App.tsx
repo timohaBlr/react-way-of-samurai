@@ -6,15 +6,12 @@ import {Routes, Route} from "react-router-dom";
 import Music from "./Components/Music/Music";
 import News from "./Components/News/News";
 import Settings from "./Components/Settings/Settings";
-import {ReduxStoreType} from "./redux/redux-store";
-import ProfileContainer from "./Components/Profile/ProfileContainer";
-import DialogsContainer from "./Components/Dialogs/DialogsContainer";
-import StoreContext from "./StoreContext";
+import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
+import {ProfileContainer} from "./Components/Profile/ProfileContainer";
+import {UsersContainer} from "./Components/Users/UsersContainer";
 
 type AppPropsType = {
-    /*state: StateType
-    dispatch: (action: ActionsType) => void*/
-    store: ReduxStoreType
+
 }
 
 function App(props: AppPropsType) {
@@ -24,15 +21,13 @@ function App(props: AppPropsType) {
             <div className={'navbar'}><Navbar/></div>
             <div className={'content'}>
                 <Routes>
-                    <Route path={'/*'} element={<ProfileContainer store={props.store}
-                    />}/>
-                    <Route path="/profile" element={<ProfileContainer store={props.store}
-                    />}/>
-                    <Route path="/dialogs" element={<DialogsContainer store={props.store}
-                    />}/>
+                    <Route path={'/*'} element={<ProfileContainer/>}/>
+                    <Route path="/profile" element={<ProfileContainer/>}/>
+                    <Route path="/dialogs" element={<DialogsContainer/>}/>
                     <Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>
                     <Route path="/settings" element={<Settings/>}/>
+                    <Route path="/users" element={<UsersContainer/>}/>
                 </Routes>
             </div>
         </div>

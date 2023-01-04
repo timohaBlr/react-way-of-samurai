@@ -1,9 +1,24 @@
-import {ActionsType, dialogsPageType} from "../store";
+const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
+const ADD_MESSAGE = 'ADD_MESSAGE'
 
-export const UPDATE_TEXT_AREA = 'UPDATE_TEXT_AREA'
-export const ADD_POST = 'ADD_POST'
+type ActionsType = UpdateNewMessageType | AddNewMessageType
+type AddNewMessageType = ReturnType<typeof addNewMessageAC>
+type UpdateNewMessageType = ReturnType<typeof updateNewMessageAC>
+export type DialogsInitialStateType = {
+    dialogs: Array<DialogsType>
+    messages: Array<MessagesType>
+    newMessage: string
+}
+export type DialogsType = {
+    id: number
+    user: string
+}
+export type MessagesType = {
+    id: number
+    message: string
+}
 
-const initialState = {
+const initialState: DialogsInitialStateType = {
     dialogs: [
         {id: 1, user: 'Andrew'},
         {id: 2, user: 'Matthew'},
@@ -21,26 +36,32 @@ const initialState = {
     newMessage: '',
 };
 
-export const dialogsAddReducer = (state: dialogsPageType = initialState, action: ActionsType) => {
+export const dialogsAddReducer = (state: DialogsInitialStateType = initialState, action: ActionsType): DialogsInitialStateType => {
     switch (action.type) {
-        case 'UPDATE_TEXT_AREA':
-            state.newMessage = action.value;
-            return state;
-        case 'ADD_POST':
-            state.messages.push({
-                id: state.messages.length + 1,
-                message: state.newMessage,
-            });
-            state.newMessage = '';
-            return state;
+        case UPDATE_NEW_MESSAGE_TEXT:
+            return {...state, newMessage: action.payload.value};
+        case ADD_MESSAGE:
+            return {
+                ...state,
+                messages: [...state.messages, {
+                    id: state.messages.length + 1,
+                    message: state.newMessage,
+                }],
+                newMessage: ''
+            };
         default:
             return state;
     }
 }
 
-export const buttonActionCreator = () => {
-    return {type: 'ADD_POST'} as const
+export const addNewMessageAC = () => {
+    return {type: ADD_MESSAGE} as const
 }
-export const textAreaActionCreator = (value: string) => {
-    return {type: 'UPDATE_TEXT_AREA', value: value} as const
+export const updateNewMessageAC = (value: string) => {
+    return {
+        type: UPDATE_NEW_MESSAGE_TEXT,
+        payload: {
+            value
+        }
+    } as const
 }
