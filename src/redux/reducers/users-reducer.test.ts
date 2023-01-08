@@ -8,8 +8,11 @@ const usersPage: UsersInitialStateType = {
         {
             id: initialUserId1,
             name: 'Timofey G.',
-            ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-            description: 'I am a react-redux developer',
+            photos: {
+                large: undefined,
+                small: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
+            },
+            status: 'I am a react-redux developer',
             followed: true,
             location: {
                 country: "Belarus",
@@ -19,8 +22,11 @@ const usersPage: UsersInitialStateType = {
         {
             id: initialUserId2,
             name: 'Barsik',
-            ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-            description: 'I am very pretty kitten=)',
+            photos: {
+                large: undefined,
+                small: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
+            },
+            status: 'I am very pretty kitten=)',
             followed: false,
             location: {
                 country: "Belarus",
@@ -29,7 +35,7 @@ const usersPage: UsersInitialStateType = {
         },
     ],
 }
-test('follow status should be changed', ()=> {
+test('follow status should be changed', () => {
     const newUsers = usersReducer(usersPage, changeFollowStatusAC(initialUserId2))
 
     expect(newUsers).not.toBe(usersPage)

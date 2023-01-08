@@ -8,11 +8,12 @@ type UserPropsType = {
     changeFollowStatus: (userId: string) => void
 }
 export const User: React.FC<UserPropsType> = React.memo(({user,changeFollowStatus, ...restProps}) => {
+    const  ava = 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
     return (
         <div className={s.userWrapper}>
             <div className={s.avaAndButton}>
                 <div className={s.ava}>
-                    <img src={user.ava} alt={'ss'}/>
+                    <img src={user.photos.small? user.photos.small : ava} alt={'ss'}/>
                 </div>
                 <div className={s.button}>
                     <SuperButton onClick={()=> changeFollowStatus(user.id)}>{user.followed? 'Follow' : 'Unfollow'}</SuperButton>
@@ -24,17 +25,17 @@ export const User: React.FC<UserPropsType> = React.memo(({user,changeFollowStatu
                         {user.name}
                     </div>
                     <div className={s.description}>
-                        {user.description}
+                        {user.status}
                     </div>
                 </div>
-                <div className={s.location}>
+                {user.location && <div className={s.location}>
                     <div className={s.country}>
                         {user.location.country}
                     </div>
                     <div className={s.city}>
                         {user.location.city}
                     </div>
-                </div>
+                </div>}
             </div>
         </div>
     );

@@ -1,4 +1,3 @@
-import {v1} from "uuid";
 
 export type UsersInitialStateType = {
     users: UserType[]
@@ -6,8 +5,11 @@ export type UsersInitialStateType = {
 export type UserType = {
     id: string
     name: string
-    ava: string
-    description: string
+    photos: {
+        small: string | undefined
+        large: string | undefined
+    }
+    status: string |null
     location: LocationType
     followed: boolean
 }
@@ -15,47 +17,28 @@ type LocationType = {
     country: string
     city: string
 }
-type ActionTypes = ChangeFollowStatusType
+type ActionTypes = ChangeFollowStatusType | SetUsersActionType
 type ChangeFollowStatusType = ReturnType<typeof changeFollowStatusAC>
+type SetUsersActionType = ReturnType<typeof setUsersAC>
 const CHANGE_FOLLOW_STATUS = 'CHANGE_FOLLOW_STATUS'
-const initialUserId = v1();
+const SET_USERS = 'SET_USERS'
 const initialState: UsersInitialStateType = {
     users: [
-        {
-            id: initialUserId,
-            name: 'Timofey G.',
-            ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-            description: 'I am a react-redux developer',
-            followed: true,
-            location: {
-                country: "Belarus",
-                city: 'Minsk',
-            },
-        },
-        {
-            id: v1(),
-            name: 'Barsik',
-            ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-            description: 'I am very pretty kitten=)',
-            followed: false,
-            location: {
-                country: "Belarus",
-                city: 'Bobruisk',
-            },
-        },
+
     ],
 }
 export const usersReducer = (state: UsersInitialStateType = initialState,
                              action: ActionTypes): UsersInitialStateType => {
     switch (action.type) {
         case CHANGE_FOLLOW_STATUS:
-            const userId = action.payload.userId
             return {
                 ...state,
-                users: state.users.map(user => user.id === userId
+                users: state.users.map(user => user.id === action.payload.userId
                     ? {...user, followed: !user.followed}
                     : user)
             };
+        case SET_USERS:
+            return {...state, users: action.payload.users};
         default:
             return state;
     }
@@ -66,6 +49,14 @@ export const changeFollowStatusAC = (userId: string) => {
         type: CHANGE_FOLLOW_STATUS,
         payload: {
             userId,
+        },
+    } as const
+}
+export const setUsersAC = (users: UserType[]) => {
+    return {
+        type: SET_USERS,
+        payload: {
+            users,
         },
     } as const
 }
