@@ -1,52 +1,47 @@
-import React from 'react';
-import {UsersInitialStateType, UserType} from "../../redux/reducers/users-reducer";
+import React, {MouseEvent} from 'react';
+import {UserType} from "../../redux/reducers/users-reducer";
 import {User} from "./User";
-import {v1} from "uuid";
-import axios from "axios";
+import s from "./Users.module.css";
 
 
 type UsersPropsType = {
-    usersPage: UsersInitialStateType
+    users: UserType[]
+    pageSize: number
+    totalUserCount: number
+    pageNumber: number
     changeFollowStatus: (userId: string) => void
-    setUsers: (users: UserType[]) => void
+    setCurrentPageCallBack: (currentPage: number) => void
 }
-export const Users: React.FC<UsersPropsType> = React.memo(({setUsers, usersPage, changeFollowStatus, ...restProps}) => {
-    if (usersPage.users.length === 0) {
-        axios.get('https://social-network.samuraijs.com/api/1.0/users')
-            .then(response => {
-                setUsers(
-                    response.data.items
-                   /* [
-                    {
-                        id: v1(),
-                        name: 'Timofey G.',
-                        ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-                        description: 'I am a react-redux developer',
-                        followed: true,
-                        location: {
-                            country: "Belarus",
-                            city: 'Minsk',
-                        },
-                    },
-                    {
-                        id: v1(),
-                        name: 'Barsik',
-                        ava: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png',
-                        description: 'I am very pretty kitten=)',
-                        followed: false,
-                        location: {
-                            country: "Belarus",
-                            city: 'Bobruisk',
-                        },
-                    },
-                    ]*/
-                );
-            })
+export const Users: React.FC<UsersPropsType> = React.memo(({
+                                                               pageNumber,
+                                                               users,
+                                                               totalUserCount,
+                                                               pageSize,
+                                                               changeFollowStatus,
+                                                               setCurrentPageCallBack,
+                                                               ...restProps
+                                                           }) => {
+    const spanOnClickHandler = (e: MouseEvent<HTMLSpanElement>) => {
+        const pageNumber = Number(e.currentTarget.textContent)
+        setCurrentPageCallBack(pageNumber)
     }
-    return (
+    const pagesCount = Math.ceil(totalUserCount / pageSize)
+    let arrPages = []
+    for (let i = 1; i <= pagesCount; i++) {
+        arrPages.push(i)
+    }
+    const mappedArrPages = arrPages.map(m => <span key={m}
+                                                   className={m === pageNumber ? s.pageNumber : ''}
+                                                   onClick={spanOnClickHandler}>{m}</span>)
+    const mappedUsers = users.map(user => <User
+        changeFollowStatus={changeFollowStatus}
+        key={user.id}
+        user={user}/>)
+    return <div>
+        <div>{mappedArrPages} </div>
         <div>
-            {usersPage.users.map(user => <User changeFollowStatus={changeFollowStatus} key={user.id} user={user}/>)}
+            {mappedUsers}
         </div>
-    );
+    </div>
 })
 

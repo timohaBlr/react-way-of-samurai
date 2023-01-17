@@ -9,7 +9,7 @@ const usersPage: UsersInitialStateType = {
             id: initialUserId1,
             name: 'Timofey G.',
             photos: {
-                large: undefined,
+                large: null,
                 small: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
             },
             status: 'I am a react-redux developer',
@@ -23,7 +23,7 @@ const usersPage: UsersInitialStateType = {
             id: initialUserId2,
             name: 'Barsik',
             photos: {
-                large: undefined,
+                large: null,
                 small: 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
             },
             status: 'I am very pretty kitten=)',
@@ -34,6 +34,10 @@ const usersPage: UsersInitialStateType = {
             },
         },
     ],
+    pageSize: 5,
+    totalUserCount: 10,
+       pageNumber: 1,
+    loadingStatus: false,
 }
 test('follow status should be changed', () => {
     const newUsers = usersReducer(usersPage, changeFollowStatusAC(initialUserId2))

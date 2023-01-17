@@ -10,9 +10,7 @@ import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 
-type AppPropsType = {
-
-}
+type AppPropsType = {}
 
 function App(props: AppPropsType) {
     return (
@@ -22,7 +20,11 @@ function App(props: AppPropsType) {
             <div className={'content'}>
                 <Routes>
                     <Route path={'/*'} element={<ProfileContainer/>}/>
-                    <Route path="/profile" element={<ProfileContainer/>}/>
+                    <Route path='/profile/:userId' element={<ProfileContainer/>}/>
+                    {/*<Route path="/profile/">
+                        <Route path=":userId" element={<ProfileContainer/>}/>
+                        <Route path="1" element={<ProfileContainer/>}/>
+                    </Route>*/}
                     <Route path="/dialogs" element={<DialogsContainer/>}/>
                     <Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>

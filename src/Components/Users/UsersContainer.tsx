@@ -1,21 +1,37 @@
 import React from "react";
 import {connect} from "react-redux";
-import {Users} from "./Users";
 import {AppDispatchType, AppStateType} from "../../redux/hooks";
-import {changeFollowStatusAC, setUsersAC, UsersInitialStateType, UserType} from "../../redux/reducers/users-reducer";
-import {UsersClass} from "./UsersC";
+import {
+    changeFollowStatusAC, setLoadingStatusAC,
+    setPageNumberAC, setTotalUserCountAC,
+    setUsersAC,
+    UserType
+} from "../../redux/reducers/users-reducer";
+import {UsersClass} from "./UsersClass";
 
 
 export type MapStatePropsType = {
-    usersPage: UsersInitialStateType
+    users: UserType[]
+    pageSize: number
+    totalUserCount: number
+    pageNumber: number
+    loadingStatus: boolean
+
 }
 export type mapDispatchToProps = {
     changeFollowStatus: (userId: string) => void
     setUsers: (users: UserType[]) => void
+    setTotalUserCount: (totalUserCount: number) => void
+    setPageNumber: (pageNumber: number) => void
+    setLoadingStatus: (loadingStatus: boolean) => void
 }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
-        usersPage: state.usersPage
+        users: state.usersPage.users,
+        pageSize: state.usersPage.pageSize,
+        totalUserCount: state.usersPage.totalUserCount,
+        pageNumber: state.usersPage.pageNumber,
+        loadingStatus: state.usersPage.loadingStatus,
     }
 }
 const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
@@ -25,7 +41,16 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
         },
         setUsers: (users) => {
             dispatch(setUsersAC(users))
-        }
+        },
+        setTotalUserCount: (totalUserCount) => {
+            dispatch(setTotalUserCountAC(totalUserCount))
+        },
+        setPageNumber: (pageNumber) => {
+            dispatch(setPageNumberAC(pageNumber))
+        },
+        setLoadingStatus: (loadingStatus) => {
+            dispatch(setLoadingStatusAC(loadingStatus))
+        },
     }
 }
 

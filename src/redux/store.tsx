@@ -1,4 +1,4 @@
-import {addNewPostAC,  newPostReducer} from "./reducers/new-post-reducer";
+import {addNewPostAC,  profileReducer} from "./reducers/profile-reducer";
 import {dialogsAddReducer} from "./reducers/dialogs-add-reducer";
 
  type UserType = {
@@ -92,7 +92,8 @@ const store: StoreType = {
         this._subscriber = observer;
     },
     dispatch(action) {
-        newPostReducer(this._state.profilePage, action)
+        // @ts-ignore
+        profileReducer(this._state.profilePage, action)
         dialogsAddReducer(this._state.dialogsPage, action)
         this._subscriber(this._state);
     },

@@ -6,7 +6,8 @@ export const Navbar = () => {
     return (
         <div>
             <div>
-                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/profile'> Profile</NavLink>
+                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item}
+                         to='/profile'> Profile</NavLink>
             </div>
             <div>
                 <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/dialogs'>Messages</NavLink>
