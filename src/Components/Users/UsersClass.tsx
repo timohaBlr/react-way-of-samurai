@@ -1,6 +1,6 @@
 import React from 'react';
-import { UserType} from "../../redux/reducers/users-reducer";
-import {instance} from "../../server/axios";
+import {UserType} from "../../redux/reducers/users-reducer";
+import {getUsers, instance} from "../../Api/api";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
 
@@ -16,17 +16,18 @@ type UsersPropsType = {
     setUsers: (users: UserType[]) => void
     setTotalUserCount: (totalUserCount: number) => void
     setPageNumber: (pageNumber: number) => void
+    toggleFollowing: (userId: string, inProgress: boolean) => void
+    changingFollowing: string[]
 }
 
 export class UsersClass extends React.Component<UsersPropsType, any> {
 
     componentDidMount() {
         this.props.setLoadingStatus(true)
-        instance.get(`/users?count=${this.props.pageSize}&page=${this.props.pageNumber}`)
-            .then(response => {
-                this.props.setUsers(response.data.items)
-                this.props.setTotalUserCount(response.data.totalCount)
-
+        getUsers(this.props.pageSize, this.props.pageNumber)
+            .then(data => {
+                this.props.setUsers(data.items)
+                this.props.setTotalUserCount(data.totalCount)
                 this.props.setLoadingStatus(false)
             })
     }
@@ -34,13 +35,43 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
     setCurrentPageCallBack = (currentPage: number) => {
         this.props.setLoadingStatus(true)
         this.props.setPageNumber(currentPage)
-        instance.get(`/users?count=${this.props.pageSize}&page=${currentPage}`)
-            .then(response => {
-                this.props.setUsers(response.data.items);
-
+        getUsers(this.props.pageSize, currentPage)
+            .then(data => {
+                this.props.setUsers(data.items);
                 this.props.setLoadingStatus(false)
             })
     }
+
+    toggleFollowingCallBack = (userId: string) => {
+        let user = this.props.users.find(user => user.id === userId)
+
+        if (user!.followed) {
+            this.props.toggleFollowing(userId, true)
+            instance.delete('/follow/' + userId)
+                .then(response => {
+                    if (response.data.resultCode === 0) {
+                        this.props.changeFollowStatus(userId)
+                        this.props.toggleFollowing(userId, false)
+                    } else {
+                        alert('Сервер не дал разрешения delete новый фолоу');
+                        this.props.toggleFollowing(userId, false)
+                    }
+                })
+        } else {
+            this.props.toggleFollowing(userId, true)
+            instance.post('/follow/' + userId)
+                .then(response => {
+                    if (response.data.resultCode === 0) {
+                        this.props.changeFollowStatus(userId)
+                        this.props.toggleFollowing(userId, false)
+                    } else {
+                        alert('Сервер не дал разрешения set новый фолоу');
+                        this.props.toggleFollowing(userId, false)
+                    }
+                })
+        }
+    }
+
 
     render() {
         return <div>{this.props.loadingStatus && <Preloader/>}
@@ -48,8 +79,9 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
                    pageSize={this.props.pageSize}
                    totalUserCount={this.props.totalUserCount}
                    pageNumber={this.props.pageNumber}
-                   changeFollowStatus={this.props.changeFollowStatus}
-                   setCurrentPageCallBack={this.setCurrentPageCallBack}/>
+                   setCurrentPageCallBack={this.setCurrentPageCallBack}
+                   toggleFollowingCallBack={this.toggleFollowingCallBack}
+                   changingFollowing={this.props.changingFollowing}/>
 
         </div>
     }

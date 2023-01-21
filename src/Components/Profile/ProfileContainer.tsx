@@ -11,7 +11,7 @@ import {useParams} from "react-router-dom";
 import {ProfileClass} from "./ProfileClass";
 
 export type MapStatePropsTypeType = {
-    user: UserType
+    user: UserType | null
     posts: Array<PostsType>
     newPostText: string
     loadingStatus: boolean
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
     }
 }
 type ProfilePropsType = {
-    user: UserType
+    user: UserType | null
     posts: Array<PostsType>
     newPostText: string
     addMessage: () => void

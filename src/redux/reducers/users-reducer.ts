@@ -4,6 +4,7 @@ export type UsersInitialStateType = {
     totalUserCount: number
     pageNumber: number
     loadingStatus: boolean
+    changingFollowing: string[]
 }
 export type UserType = {
     name: string
@@ -21,12 +22,13 @@ type LocationType = {
     city: string
 }
 
-const initialState: UsersInitialStateType = {
+export const initialState: UsersInitialStateType = {
     users: [],
     pageSize: 5,
     totalUserCount: 54,
     pageNumber: 1,
     loadingStatus: true,
+    changingFollowing: []
 }
 
 export enum ACTIONS_TYPE {
@@ -35,6 +37,7 @@ export enum ACTIONS_TYPE {
     SET_USERS = 'SET_USERS',
     SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
     SET_LOADING_STATUS = 'SET_LOADING_STATUS',
+    TOGGLE_FOLLOWING = 'TOGGLE_FOLLOWING',
 }
 
 export const usersReducer = (state: UsersInitialStateType = initialState,
@@ -55,17 +58,23 @@ export const usersReducer = (state: UsersInitialStateType = initialState,
             return {...state, pageNumber: action.payload.pageNumber};
         case ACTIONS_TYPE.SET_LOADING_STATUS:
             return {...state, loadingStatus: action.payload.loadingStatus};
+        case ACTIONS_TYPE.TOGGLE_FOLLOWING:
+            const userId = action.payload.userId
+            if (action.payload.inProgress) {
+                return {...state, changingFollowing: [userId]}
+            } else return {...state, changingFollowing: state.changingFollowing.filter(f => f !== userId)};
         default:
             return state;
     }
 }
 type ActionTypes = ChangeFollowStatusType | SetUsersActionType | setPageNumberActionType
-    | setTotalUserCountActionType | setLoadingStatusActionType
+    | setTotalUserCountActionType | setLoadingStatusActionType | ToggleFollowingActionType
 type ChangeFollowStatusType = ReturnType<typeof changeFollowStatusAC>
 type SetUsersActionType = ReturnType<typeof setUsersAC>
 type setPageNumberActionType = ReturnType<typeof setPageNumberAC>
 type setTotalUserCountActionType = ReturnType<typeof setTotalUserCountAC>
 type setLoadingStatusActionType = ReturnType<typeof setLoadingStatusAC>
+type ToggleFollowingActionType = ReturnType<typeof toggleFollowingAC>
 
 export const changeFollowStatusAC = (userId: string) => {
     return {
@@ -104,6 +113,15 @@ export const setLoadingStatusAC = (loadingStatus: boolean) => {
         type: ACTIONS_TYPE.SET_LOADING_STATUS,
         payload: {
             loadingStatus,
+        },
+    } as const
+}
+export const toggleFollowingAC = (userId: string, inProgress: boolean) => {
+    return {
+        type: ACTIONS_TYPE.TOGGLE_FOLLOWING,
+        payload: {
+            userId,
+            inProgress,
         },
     } as const
 }

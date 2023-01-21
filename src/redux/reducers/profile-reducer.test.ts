@@ -66,6 +66,6 @@ test('profile info should be changed', ()=> {
     const newProfileState = profileReducer(profileInitialState, setProfileAC(response))
 
     expect(profileInitialState).not.toBe(newProfileState)
-    expect(newProfileState.user.userId).toBe(31)
-    expect(newProfileState.user.aboutMe).not.toBe('Programmer')
+    expect(newProfileState.user!.userId).toBe(31)
+    expect(newProfileState.user!.aboutMe).not.toBe('Programmer')
 })

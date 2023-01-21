@@ -12,7 +12,7 @@ export const ProfileInfo = React.memo((props: ProfileInfoPropsType) => {
     const defaultValue = '...'
     return (
         <div className={s.wrapper}>
-            <span className={s.ava}><img src={props.user.photos.small || defaultAva} alt={'bla'}/></span>
+            <span className={s.ava}><img src={props.user.photos.small || defaultAva} alt={'Profile avatar'}/></span>
             <span className={s.info}>
                 <div>User name: {props.user.fullName || defaultValue}</div>
                 <div>About me:{props.user.aboutMe || defaultValue}</div>

@@ -4,7 +4,7 @@ import {AppDispatchType, AppStateType} from "../../redux/hooks";
 import {
     changeFollowStatusAC, setLoadingStatusAC,
     setPageNumberAC, setTotalUserCountAC,
-    setUsersAC,
+    setUsersAC, toggleFollowingAC,
     UserType
 } from "../../redux/reducers/users-reducer";
 import {UsersClass} from "./UsersClass";
@@ -16,6 +16,7 @@ export type MapStatePropsType = {
     totalUserCount: number
     pageNumber: number
     loadingStatus: boolean
+    changingFollowing: string[]
 
 }
 export type mapDispatchToProps = {
@@ -24,6 +25,7 @@ export type mapDispatchToProps = {
     setTotalUserCount: (totalUserCount: number) => void
     setPageNumber: (pageNumber: number) => void
     setLoadingStatus: (loadingStatus: boolean) => void
+    toggleFollowing: (userId: string, inProgress: boolean)=> void
 }
 const mapStateToProps = (state: AppStateType): MapStatePropsType => {
     return {
@@ -32,6 +34,7 @@ const mapStateToProps = (state: AppStateType): MapStatePropsType => {
         totalUserCount: state.usersPage.totalUserCount,
         pageNumber: state.usersPage.pageNumber,
         loadingStatus: state.usersPage.loadingStatus,
+        changingFollowing: state.usersPage.changingFollowing
     }
 }
 const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
@@ -51,6 +54,9 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
         setLoadingStatus: (loadingStatus) => {
             dispatch(setLoadingStatusAC(loadingStatus))
         },
+        toggleFollowing: (userId, inProgress)=>{
+            dispatch(toggleFollowingAC(userId, inProgress))
+        }
     }
 }
 

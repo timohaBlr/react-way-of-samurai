@@ -6,10 +6,16 @@ import {NavLink} from "react-router-dom";
 
 type UserPropsType = {
     user: UserType
-    changeFollowStatus: (userId: string) => void
+    toggleFollowingCallBack: (userId: string) => void
+    changingFollowing: string[]
 }
-export const User: React.FC<UserPropsType> = React.memo(({user, changeFollowStatus, ...restProps}) => {
+export const User: React.FC<UserPropsType> = React.memo(({user,changingFollowing, toggleFollowingCallBack, ...restProps}) => {
     const ava = 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
+
+   const buttonFollowOnClickHandler = ()=> {
+       toggleFollowingCallBack(user.id)
+    }
+    const disabled = changingFollowing.some(id=> id ===user.id)
     return (
         <div className={s.userWrapper}>
             <div className={s.avaAndButton}>
@@ -17,11 +23,11 @@ export const User: React.FC<UserPropsType> = React.memo(({user, changeFollowStat
                     <NavLink to={`/profile/${user.id} `}>
                         <img src={user.photos.small ? user.photos.small : ava} alt={'userAvatar'}/>
                     </NavLink>
-
                 </div>
                 <div className={s.button}>
                     <SuperButton
-                        onClick={() => changeFollowStatus(user.id)}>{user.followed ? 'Follow' : 'Unfollow'}</SuperButton>
+                        disabled={disabled}
+                        onClick={buttonFollowOnClickHandler}>{user.followed ?'Unfollow':  'Follow'}</SuperButton>
                 </div>
             </div>
             <div className={s.userInfo}>

@@ -9,16 +9,18 @@ type UsersPropsType = {
     pageSize: number
     totalUserCount: number
     pageNumber: number
-    changeFollowStatus: (userId: string) => void
     setCurrentPageCallBack: (currentPage: number) => void
+    toggleFollowingCallBack: (userId: string) => void
+    changingFollowing: string[]
 }
 export const Users: React.FC<UsersPropsType> = React.memo(({
                                                                pageNumber,
                                                                users,
                                                                totalUserCount,
                                                                pageSize,
-                                                               changeFollowStatus,
+                                                               toggleFollowingCallBack,
                                                                setCurrentPageCallBack,
+                                                               changingFollowing,
                                                                ...restProps
                                                            }) => {
     const spanOnClickHandler = (e: MouseEvent<HTMLSpanElement>) => {
@@ -30,11 +32,13 @@ export const Users: React.FC<UsersPropsType> = React.memo(({
     for (let i = 1; i <= pagesCount; i++) {
         arrPages.push(i)
     }
+
     const mappedArrPages = arrPages.map(m => <span key={m}
                                                    className={m === pageNumber ? s.pageNumber : ''}
                                                    onClick={spanOnClickHandler}>{m}</span>)
     const mappedUsers = users.map(user => <User
-        changeFollowStatus={changeFollowStatus}
+        toggleFollowingCallBack={toggleFollowingCallBack}
+        changingFollowing={changingFollowing}
         key={user.id}
         user={user}/>)
     return <div>

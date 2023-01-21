@@ -1,11 +1,11 @@
 import React from 'react';
-import {instance} from "../../server/axios";
+import {getProfile} from "../../Api/api";
 import {Profile} from "./Profile";
 import { PostsType, UserType} from "../../redux/reducers/profile-reducer";
 
 
 type ProfilePropsType = {
-    user: UserType
+    user: UserType | null
     posts: Array<PostsType>
     newPostText: string
     addMessage: () => void
@@ -20,15 +20,17 @@ export class ProfileClass extends React.Component<ProfilePropsType, any> {
 
     componentDidMount() {
         let userId = this.props.userId
+
         if (userId) {
             this.props.setLoadingStatus(true)
-            instance.get(`/profile/${userId}`)
+            getProfile(userId)
                 .then(response => {
                     this.props.setProfile(response.data)
                     this.props.setLoadingStatus(false)
                 })
         }
         }
+
 
     render() {
         if (!this.props.user) return <div>This profile does not exist. Create new profile?</div>

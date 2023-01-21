@@ -14,7 +14,7 @@ type SetProfileActionType = ReturnType<typeof setProfileAC>
 type SetLoadingStatusActionType = ReturnType<typeof setLoadingStatusAC>
 
 export type ProfileInitialStateType = {
-    user: UserType
+    user: UserType | null
     posts: Array<PostsType>
     newPostText: string
     loadingStatus: boolean
@@ -47,28 +47,30 @@ export type PostsType = {
     likesCount: number
 }
 
-export const initialState = {
-    user:{
-        aboutMe: 'Programmer',
-        contacts: {
-            facebook: null,
-            website: 'websiteUrl',
-            vk: null,
-            twitter: null,
-            instagram: null,
-            youtube: null,
-            github: null,
-            mainLink: null,
-        },
-        lookingForAJob: true,
-        lookingForAJobDescription: 'React',
-        fullName: 'Timofei',
-        userId: '1',
-        photos: {
-            small: null,
-            large: null,
-        },
+const defaultUser: UserType =    {
+    aboutMe: 'Programmer',
+    contacts: {
+        facebook: null,
+        website: 'websiteUrl',
+        vk: null,
+        twitter: null,
+        instagram: null,
+        youtube: null,
+        github: null,
+        mainLink: null,
     },
+    lookingForAJob: true,
+    lookingForAJobDescription: 'React',
+    fullName: 'Timofei',
+    userId: '1',
+    photos: {
+        small: null,
+        large: null,
+    },
+};
+export const initialState = {
+    user: null,
+
     loadingStatus: false,
     posts: [
         {id: 1, message: 'Hello', likesCount: 4},
