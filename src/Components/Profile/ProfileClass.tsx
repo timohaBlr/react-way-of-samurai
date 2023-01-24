@@ -1,5 +1,5 @@
 import React from 'react';
-import {getProfile} from "../../Api/api";
+import {fetching_API} from "../../Api/api";
 import {Profile} from "./Profile";
 import { PostsType, UserType} from "../../redux/reducers/profile-reducer";
 
@@ -23,7 +23,7 @@ export class ProfileClass extends React.Component<ProfilePropsType, any> {
 
         if (userId) {
             this.props.setLoadingStatus(true)
-            getProfile(userId)
+            fetching_API.getProfile(userId)
                 .then(response => {
                     this.props.setProfile(response.data)
                     this.props.setLoadingStatus(false)

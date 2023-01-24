@@ -21,10 +21,6 @@ function App(props: AppPropsType) {
                 <Routes>
                     <Route path={'/*'} element={<ProfileContainer/>}/>
                     <Route path='/profile/:userId' element={<ProfileContainer/>}/>
-                    {/*<Route path="/profile/">
-                        <Route path=":userId" element={<ProfileContainer/>}/>
-                        <Route path="1" element={<ProfileContainer/>}/>
-                    </Route>*/}
                     <Route path="/dialogs" element={<DialogsContainer/>}/>
                     <Route path="/news" element={<News/>}/>
                     <Route path="/music" element={<Music/>}/>

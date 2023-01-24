@@ -75,7 +75,7 @@ export const initialState = {
     posts: [
         {id: 1, message: 'Hello', likesCount: 4},
         {id: 2, message: 'Bonjour', likesCount: 5},
-        {id: 3, message: 'Privet', likesCount: 6},
+        // {id: 3, message: 'Privet', likesCount: 6},
     ],
     newPostText: '',
 };

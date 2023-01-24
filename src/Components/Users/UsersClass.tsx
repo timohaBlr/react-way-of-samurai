@@ -1,6 +1,6 @@
 import React from 'react';
 import {UserType} from "../../redux/reducers/users-reducer";
-import {getUsers, instance} from "../../Api/api";
+import {fetching_API,  instance} from "../../Api/api";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
 
@@ -24,7 +24,7 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
 
     componentDidMount() {
         this.props.setLoadingStatus(true)
-        getUsers(this.props.pageSize, this.props.pageNumber)
+        fetching_API.getUsers(this.props.pageSize, this.props.pageNumber)
             .then(data => {
                 this.props.setUsers(data.items)
                 this.props.setTotalUserCount(data.totalCount)
@@ -35,7 +35,7 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
     setCurrentPageCallBack = (currentPage: number) => {
         this.props.setLoadingStatus(true)
         this.props.setPageNumber(currentPage)
-        getUsers(this.props.pageSize, currentPage)
+        fetching_API.getUsers(this.props.pageSize, currentPage)
             .then(data => {
                 this.props.setUsers(data.items);
                 this.props.setLoadingStatus(false)
@@ -44,7 +44,6 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
 
     toggleFollowingCallBack = (userId: string) => {
         let user = this.props.users.find(user => user.id === userId)
-
         if (user!.followed) {
             this.props.toggleFollowing(userId, true)
             instance.delete('/follow/' + userId)

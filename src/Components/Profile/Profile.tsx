@@ -1,5 +1,5 @@
 import React from 'react';
-import {MyPosts} from "../MyPosts/MyPosts";
+import {MyPosts} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import s from "./Profile.module.css";
 import {PostsType, UserType} from "../../redux/reducers/profile-reducer";
@@ -21,6 +21,7 @@ export const Profile = (props: ProfilePropsType) => {
         <div>
 
             <div className={s.image}>
+
                 <img src={'https://zebrasci.com/wp-content/uploads/2019/03/device-testing-banner-1600x200.png'}
                      alt={'bla'}/>
             </div>

@@ -1,7 +1,7 @@
 import React from 'react';
 import {NewPost} from "./NewPost/NewPost";
-import {Post} from "./Posts/Post";
-import {PostsType} from "../../redux/reducers/profile-reducer";
+import {Post} from "./Post/Post";
+import {PostsType} from "../../../redux/reducers/profile-reducer";
 
 
 type MyPostsPropsType = {

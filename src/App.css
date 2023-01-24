@@ -2,36 +2,35 @@
     max-width: 1700px;
     margin: auto;
     display: grid;
-    grid-template-columns: 100px 1fr;
-    grid-template-rows: 100px 10fr;
-    grid-template-areas: 'h h'
-'nav c';
-
+    grid-template-columns: minmax(100px, auto) minmax(auto, 1fr);
+    grid-template-rows: minmax(60px, 10vh) minmax(calc(90vh - 5px), 1fr);
+    /*https://dev.to/nirazanbasnet/dont-use-100vh-for-mobile-responsive-3o97
+    Проблема с определением vh в браузерах мобильных устройств
+    */
+    /*grid-template-rows: minmax(60px, 10vh) minmax(calc(90vh - 5px), max-content);*/
+    gap: 5px;
 }
 
-.header {
-    grid-area: h;
-    background-color: green;
-    margin-bottom: 10px;
-    text-align: left;
-    padding: 10px;
-    border-radius: 10px;
-}
 
 .header img {
     width: 20px;
 }
 
+.header {
+    grid-column-start: span 2;
+    border: 0 solid transparent;
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 13px 3px rgb(0 0 0 / 5%);
+
+}
+
 .navbar {
-    grid-area: nav;
     background-color: darkcyan;
-    margin-right: 5px;
     padding: 10px;
     border-radius: 10px;
 }
 
 .content {
-    grid-area: c;
     background-color: violet;
     border-radius: 10px;
 }

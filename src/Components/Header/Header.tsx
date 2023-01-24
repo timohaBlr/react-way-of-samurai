@@ -1,34 +1,40 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import s from './Header.module.css'
-import {instance} from "../../Api/api";
+import {fetching_API} from "../../Api/api";
 import {useDispatch, useSelector} from "react-redux";
-import {DataType, InitialStateType, setAuthorisedUsedAC} from "../../redux/reducers/auth-reduser";
+import {InitialStateType, setAuthorisedUsedAC} from "../../redux/reducers/auth-reduser";
 import {AppRootStateType} from "../../redux/redux-store";
+import logo from './../../images/logo.svg'
+import {Logo} from "./Logo";
 
 export const Header = () => {
     const dispatch = useDispatch()
-    const loginedUser = useSelector<AppRootStateType, InitialStateType>(state => state.
-        authentication)
+    const loginedUser = useSelector<AppRootStateType, InitialStateType>(state => state.authentication)
+
     useEffect(() => {
-        instance.get('/auth/me')
-            .then(response => {
-                if (response) {
-                    dispatch(setAuthorisedUsedAC(response.data.data))
-              /*  instance.get('/profile/'+String(loginedUser.id))
-                    .then(response=> {
-                        if (response) {
-                            let ava  = response.data.
-                        }
-                    })*/
-                }
+
+        fetching_API.getUserToken()
+            .then(data => {
+                dispatch(setAuthorisedUsedAC(data))
             })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally()
+        //          instance.get('/profile/'+String(loginedUser.id))
+        //              .then(response=> {
+        //                  if (response) {
+        //                      let ava  = response.data
+        //                  }
+        //              })
+        //          }
+        //      })
     }, [])
     return (
         <div>
-            <img src={'https://global-uploads.webflow.com/5e157547d6f791d34ea4e2bf/6087f2b060c7a92408bac811_logo.svg'}
-                 alt={'logo'}/>
+            <Logo/>
             Header
-            <div className={s.login}>{loginedUser.isLogin?loginedUser.login : <p>Login</p>}</div>
+            <div className={s.login}>{loginedUser.isLogin ? loginedUser.login : <p>Login</p>}</div>
 
         </div>
     );

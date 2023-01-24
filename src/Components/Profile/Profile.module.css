@@ -1,6 +1,12 @@
-.image img{
+.image {
+   min-width: 260px;
+}
+
+.image img {
+    width: 100%;
     border-radius: 10px;
 }
+
 .user {
 
 }

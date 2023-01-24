@@ -1,5 +1,5 @@
 import React from 'react';
-import {AddItemForm} from "../../Common/AddItemForm/AddItemForm";
+import {AddItemForm} from "../../../Common/AddItemForm/AddItemForm";
 
 
 type NewPostPropsType = {

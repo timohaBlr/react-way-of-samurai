@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './Post.module.css'
-import {SuperButton} from "../../Common/Button/SuperButton";
+import {SuperButton} from "../../../Common/Button/SuperButton";
 
 type PostPropsType = {
     message: string
