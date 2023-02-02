@@ -151,6 +151,11 @@ export const setUserProfileTC = (userId: string): ThunkType => {
             .then(response => {
                 console.log(response)
                 dispatch(setProfileAC(response.data))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally(() => {
                 dispatch(setLoadingStatusAC(false))
             })
     }

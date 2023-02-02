@@ -1,4 +1,5 @@
 import axios from "axios";
+import {Simulate} from "react-dom/test-utils";
 
 export const instance = axios.create({
     withCredentials: true,
@@ -13,15 +14,12 @@ export const fetching_API = {
     // return object with user id, e-mail and login
     getUserToken: async function () {
         return await instance.get('/auth/me')
-            .then(response => {
-               return  response.data.data
-            })
     },
-    getUserAvatar: async function(id: number){
-      return await instance.get('/profile/' + id)
-          .then(response => {
-              return  response.data.photos
-          })
+    getUserAvatar: async function (id: number) {
+        return await instance.get('/profile/' + id)
+            .then(response => {
+                return response.data.photos
+            })
     },
     getProfile: async function (userId: string) {
         return instance.get(`/profile/${userId}`)

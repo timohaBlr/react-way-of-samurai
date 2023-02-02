@@ -1,4 +1,4 @@
-import {authReducer, initialState, setAuthorisedUsedAC} from "./auth-reduser";
+import {authReducer, initialState, setAuthorisedUserAC} from "./auth-reduser";
 
 test('authorised user data should be set', () => {
     const data = {
@@ -7,7 +7,7 @@ test('authorised user data should be set', () => {
         login: 'asdasd',
         avatar: '',
     }
-    const authorised = authReducer(initialState, setAuthorisedUsedAC(data))
+    const authorised = authReducer(initialState, setAuthorisedUserAC(data))
 
     expect(initialState).not.toBe(authorised)
     expect(authorised.isLogin).toBeTruthy()

@@ -1,6 +1,6 @@
-import { AppThunk} from "../redux-store";
+import {AppThunk} from "../redux-store";
 import {fetching_API} from "../../Api/api";
-import {  setUserProfileTC} from "./profile-reducer";
+import {setUserProfileTC} from "./profile-reducer";
 
 enum ACTION_TYPES {
     SET_AUTHORISED_USER = 'SET_AUTHORISED_USER',
@@ -8,9 +8,9 @@ enum ACTION_TYPES {
 }
 
 export type DataType = Omit<InitialStateType, 'isLogin'>
-type SetAuthorisedUsedActionType = ReturnType<typeof setAuthorisedUsedAC>
-type SetAuthorisedUsedAvatarActionType = ReturnType<typeof setAuthorisedUsedAvatarAC>
-type ActionsType = SetAuthorisedUsedActionType | SetAuthorisedUsedAvatarActionType
+type SetAuthorisedUserActionType = ReturnType<typeof setAuthorisedUserAC>
+type SetAuthorisedUserAvatarActionType = ReturnType<typeof setAuthorisedUserAvatarAC>
+type ActionsType = SetAuthorisedUserActionType | SetAuthorisedUserAvatarActionType
 export type InitialStateType = {
     id: number | null
     email: string | null
@@ -32,7 +32,7 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 
-export const setAuthorisedUsedAC = (data: DataType) => {
+export const setAuthorisedUserAC = (data: DataType) => {
     return {
         type: ACTION_TYPES.SET_AUTHORISED_USER,
         payload: {
@@ -41,7 +41,7 @@ export const setAuthorisedUsedAC = (data: DataType) => {
     } as const
 }
 
-export const setAuthorisedUsedAvatarAC = (avatar: string) => {
+export const setAuthorisedUserAvatarAC = (avatar: string) => {
     return {
         type: ACTION_TYPES.SET_AVATAR,
         payload: {
@@ -54,9 +54,12 @@ type ThunkType = AppThunk<ActionsType>
 export const setAuthorisedUsedTC = (): ThunkType => {
     return (dispatch) => {
         fetching_API.getUserToken()
-            .then(data => {
-                dispatch(setAuthorisedUsedAC(data))
-                return data.id
+            .then(response => {
+                const data = response.data
+                if (data.resultCode === 0) {
+                    dispatch(setAuthorisedUserAC(data.data))
+                    return data.id
+                }
             })
             .then(id => {
                 dispatch(setUserProfileTC(id))
@@ -73,7 +76,7 @@ export const setAuthorisedUsedAvatarTC = (id: number): ThunkType => {
         fetching_API.getUserAvatar(id)
             .then(ava => {
                 console.log(ava)
-                dispatch(setAuthorisedUsedAvatarAC(ava.small))
+                dispatch(setAuthorisedUserAvatarAC(ava.small))
             })
             .catch(err => {
                 console.log(err)

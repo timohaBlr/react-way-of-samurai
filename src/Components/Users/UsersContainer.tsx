@@ -1,9 +1,9 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-     followUserTC,
+    followUserTC,
     setPageNumberAC,
-     setUsersTC,  unfollowUserTC,
+    setUsersTC, unfollowUserTC,
     UserType
 } from "../../redux/reducers/users-reducer";
 import {UsersClass} from "./UsersClass";
@@ -16,12 +16,12 @@ export type MapStatePropsType = {
     pageNumber: number
     loadingStatus: boolean
     changingFollowing: string[]
-
+    isLogin: boolean
 }
 export type mapDispatchToProps = {
     toggleFollow: (userId: string) => void
     toggleUnfollow: (userId: string) => void
-    setUsers: (pageSize: number,pageNumber: number) => void
+    setUsers: (pageSize: number, pageNumber: number) => void
     setPageNumber: (pageNumber: number) => void
 }
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
@@ -30,7 +30,8 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
         pageSize: state.usersPage.pageSize,
         pageNumber: state.usersPage.pageNumber,
         loadingStatus: state.usersPage.loadingStatus,
-        changingFollowing: state.usersPage.changingFollowing
+        changingFollowing: state.usersPage.changingFollowing,
+        isLogin: state.authentication.isLogin
     }
 }
 
@@ -42,7 +43,7 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
         toggleUnfollow: (userId: string) => {
             dispatch(unfollowUserTC(userId))
         },
-        setUsers: (pageSize: number,pageNumber: number) => {
+        setUsers: (pageSize: number, pageNumber: number) => {
             dispatch(setUsersTC(pageSize, pageNumber))
         },
         setPageNumber: (pageNumber) => {
