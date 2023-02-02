@@ -1,11 +1,22 @@
 .login {
-    float: right;
-    padding-right: 40px;
+    /*float: right;*/
+    /*padding-right: 40px;*/
 }
+
 .login a {
     color: #FFFFFF;
 }
 
-.header{
-
+.header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    margin: 0 20px 0 20px;
+}
+.loggedUser {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+justify-self: end;
+    justify-items: center;
 }

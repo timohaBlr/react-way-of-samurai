@@ -1,3 +1,6 @@
+import {AppThunk} from "../redux-store";
+import {fetching_API} from "../../Api/api";
+
 enum PROFILE_ACTIONS_TYPE {
     UPDATE_TEXT_AREA = 'UPDATE_TEXT_AREA',
     ADD_POST = 'ADD_POST',
@@ -47,7 +50,7 @@ export type PostsType = {
     likesCount: number
 }
 
-const defaultUser: UserType =    {
+const defaultUser: UserType = {
     aboutMe: 'Programmer',
     contacts: {
         facebook: null,
@@ -97,12 +100,12 @@ export const profileReducer = (state: ProfileInitialStateType = initialState,
         case PROFILE_ACTIONS_TYPE.SET_PROFILE:
             return {
                 ...state,
-               user: action.payload.response
+                user: action.payload.response
             };
         case PROFILE_ACTIONS_TYPE.SET_LOADING_STATUS:
             return {
                 ...state,
-               loadingStatus: action.payload.loadingStatus
+                loadingStatus: action.payload.loadingStatus
             };
         default:
             return state;
@@ -137,4 +140,18 @@ export const setLoadingStatusAC = (loadingStatus: boolean) => {
             loadingStatus,
         },
     } as const
+}
+
+type ThunkType = AppThunk<ActionsType>
+
+export const setUserProfileTC = (userId: string): ThunkType => {
+    return (dispatch) => {
+        dispatch(setLoadingStatusAC(true))
+        fetching_API.getProfile(userId)
+            .then(response => {
+                console.log(response)
+                dispatch(setProfileAC(response.data))
+                dispatch(setLoadingStatusAC(false))
+            })
+    }
 }

@@ -18,7 +18,7 @@ export const ProfileInfo = React.memo((props: ProfileInfoPropsType) => {
                 <div>About me:{props.user.aboutMe || defaultValue}</div>
                 <div>Looking for a job:{props.user.lookingForAJob ? 'Yes' : 'No'}</div>
                 <div>More about job:{props.user.lookingForAJobDescription || defaultValue}</div>
-                <div>Website:<a href={props.user.contacts.website || defaultValue}/></div>
+                <div>Website:<a href={props.user.contacts.website || defaultValue}>{props.user.contacts.website|| defaultValue}</a></div>
             </span>
         </div>
     );

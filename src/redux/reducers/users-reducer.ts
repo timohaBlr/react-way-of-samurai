@@ -1,3 +1,6 @@
+import {AppThunk} from "../redux-store";
+import {fetching_API, instance} from "../../Api/api";
+
 export type UsersInitialStateType = {
     users: UserType[]
     pageSize: number
@@ -41,7 +44,7 @@ export enum ACTIONS_TYPE {
 }
 
 export const usersReducer = (state: UsersInitialStateType = initialState,
-                             action: ActionTypes): UsersInitialStateType => {
+                             action: ActionsType): UsersInitialStateType => {
     switch (action.type) {
         case ACTIONS_TYPE.CHANGE_FOLLOW_STATUS:
             return {
@@ -67,7 +70,7 @@ export const usersReducer = (state: UsersInitialStateType = initialState,
             return state;
     }
 }
-type ActionTypes = ChangeFollowStatusType | SetUsersActionType | setPageNumberActionType
+type ActionsType = ChangeFollowStatusType | SetUsersActionType | setPageNumberActionType
     | setTotalUserCountActionType | setLoadingStatusActionType | ToggleFollowingActionType
 type ChangeFollowStatusType = ReturnType<typeof changeFollowStatusAC>
 type SetUsersActionType = ReturnType<typeof setUsersAC>
@@ -124,4 +127,66 @@ export const toggleFollowingAC = (userId: string, inProgress: boolean) => {
             inProgress,
         },
     } as const
+}
+
+type ThunkType = AppThunk<ActionsType>
+
+export const setUsersTC = (pageSize: number, pageNumber: number): ThunkType => {
+    return (dispatch) => {
+        dispatch(setLoadingStatusAC(true))
+        fetching_API.getUsers(pageSize, pageNumber)
+            .then(data => {
+                dispatch(setUsersAC(data.items))
+                dispatch(setTotalUserCountAC(data.totalCount))
+            })
+            .catch(err => {
+                console.log(err)
+            })
+            .finally(() => {
+                dispatch(setLoadingStatusAC(false))
+            })
+    }
+}
+
+export const followUserTC = (userId: string): ThunkType => {
+    return dispatch => {
+        dispatch(setLoadingStatusAC(true))
+        dispatch(toggleFollowingAC(userId, true))
+        instance.post('/follow/' + userId)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(changeFollowStatusAC(userId))
+                    dispatch(toggleFollowingAC(userId, false))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Сервер не дал разрешения set новый фолоу');
+            })
+            .finally(() => {
+                dispatch(toggleFollowingAC(userId, false))
+                dispatch(setLoadingStatusAC(false))
+            })
+    }
+}
+export const unfollowUserTC = (userId: string): ThunkType => {
+    return dispatch => {
+        dispatch(setLoadingStatusAC(true))
+        dispatch(toggleFollowingAC(userId, true))
+        instance.delete('/follow/' + userId)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(changeFollowStatusAC(userId))
+                    dispatch(toggleFollowingAC(userId, false))
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Сервер не дал разрешения set новый фолоу');
+            })
+            .finally(() => {
+                dispatch(toggleFollowingAC(userId, false))
+                dispatch(setLoadingStatusAC(false))
+            })
+    }
 }

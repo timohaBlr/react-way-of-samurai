@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Navbar from "./Components/Navbar/Navbar";
-import Header from "./Components/Header/Header";
+import {Header} from "./Components/Header/Header";
 import {Routes, Route} from "react-router-dom";
 import Music from "./Components/Music/Music";
 import News from "./Components/News/News";
@@ -10,9 +10,8 @@ import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 
-type AppPropsType = {}
 
-function App(props: AppPropsType) {
+function App() {
     return (
         <div className="App">
             <div className={'header'}><Header/></div>

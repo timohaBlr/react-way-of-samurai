@@ -1,7 +1,6 @@
 import React from 'react';
-import {fetching_API} from "../../Api/api";
 import {Profile} from "./Profile";
-import { PostsType, UserType} from "../../redux/reducers/profile-reducer";
+import {PostsType, UserType} from "../../redux/reducers/profile-reducer";
 
 
 type ProfilePropsType = {
@@ -11,8 +10,7 @@ type ProfilePropsType = {
     addMessage: () => void
     updateTextArea: (value: string) => void
     loadingStatus: boolean
-    setLoadingStatus: (loadingStatus: boolean) => void
-    setProfile: (response: UserType) => void
+    setProfile: (userId: string) => void
     userId?: string
 }
 
@@ -20,16 +18,10 @@ export class ProfileClass extends React.Component<ProfilePropsType, any> {
 
     componentDidMount() {
         let userId = this.props.userId
-
         if (userId) {
-            this.props.setLoadingStatus(true)
-            fetching_API.getProfile(userId)
-                .then(response => {
-                    this.props.setProfile(response.data)
-                    this.props.setLoadingStatus(false)
-                })
+            this.props.setProfile(userId)
         }
-        }
+    }
 
 
     render() {

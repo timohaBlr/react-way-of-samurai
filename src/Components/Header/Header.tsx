@@ -1,43 +1,53 @@
 import React, {useEffect} from 'react';
 import s from './Header.module.css'
-import {fetching_API} from "../../Api/api";
-import {useDispatch, useSelector} from "react-redux";
-import {InitialStateType, setAuthorisedUsedAC} from "../../redux/reducers/auth-reduser";
-import {AppRootStateType} from "../../redux/redux-store";
-import logo from './../../images/logo.svg'
+import { setAuthorisedUsedTC} from "../../redux/reducers/auth-reduser";
+import ava from './../../images/ava.png'
 import {Logo} from "./Logo";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 
 export const Header = () => {
-    const dispatch = useDispatch()
-    const loginedUser = useSelector<AppRootStateType, InitialStateType>(state => state.authentication)
+    const dispatch = useAppDispatch()
+    const loggedUser = useAppSelector(state => state.authentication)
+
 
     useEffect(() => {
-
-        fetching_API.getUserToken()
-            .then(data => {
-                dispatch(setAuthorisedUsedAC(data))
-            })
-            .catch(err => {
-                console.log(err)
-            })
-            .finally()
-        //          instance.get('/profile/'+String(loginedUser.id))
-        //              .then(response=> {
-        //                  if (response) {
-        //                      let ava  = response.data
-        //                  }
-        //              })
-        //          }
-        //      })
-    }, [])
+        dispatch(setAuthorisedUsedTC())
+    }, [dispatch])
     return (
-        <div>
-            <Logo/>
-            Header
-            <div className={s.login}>{loginedUser.isLogin ? loginedUser.login : <p>Login</p>}</div>
-
+        <div className={s.header}>
+            <div>
+                <Logo/>
+            </div>
+            <div className={s.loggedUser}>
+                <Avatar size={'60px'} isCircle={true} source={loggedUser.avatar? loggedUser.avatar: ava}/>
+                <div className={s.login}>
+                    {loggedUser.isLogin
+                        ? loggedUser.login
+                        : <p>Login</p>}
+                </div>
+            </div>
         </div>
     );
 };
 
-export default Header;
+type AvatarPropsType = {
+    source: string
+    size: string
+    isCircle: boolean
+}
+
+export const Avatar: React.FC<AvatarPropsType> = React.memo(({size, isCircle, source}) => {
+    const divStyle = {
+        backgroundImage: `url(${source})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        width: size,
+        height: size,
+        borderRadius: isCircle ? '50%' : '',
+    }
+
+    return (
+        <section style={divStyle}>
+        </section>
+    )
+})

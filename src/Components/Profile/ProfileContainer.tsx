@@ -1,14 +1,13 @@
 import {connect} from "react-redux";
-import {AppDispatchType, AppStateType} from "../../redux/hooks";
 import {
-    addNewPostAC, PostsType, setProfileAC,
+    addNewPostAC, PostsType,  setUserProfileTC,
     updateNewPostTextAC,
     UserType
 } from "../../redux/reducers/profile-reducer";
 import React from "react";
-import {setLoadingStatusAC} from "../../redux/reducers/users-reducer";
 import {useParams} from "react-router-dom";
 import {ProfileClass} from "./ProfileClass";
+import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
 
 export type MapStatePropsTypeType = {
     user: UserType | null
@@ -19,11 +18,10 @@ export type MapStatePropsTypeType = {
 export type MapDispatchToPropsType = {
     addMessage: () => void
     updateTextArea: (value: string) => void
-    setLoadingStatus: (loadingStatus: boolean) => void
-    setProfile: (response: UserType) => void
+    setProfile: (userId: string) => void
 }
 
-const mapStateToProps = (state: AppStateType): MapStatePropsTypeType => {
+const mapStateToProps = (state: AppRootStateType): MapStatePropsTypeType => {
     return {
         newPostText: state.profilePage.newPostText,
         user: state.profilePage.user,
@@ -39,11 +37,8 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
         updateTextArea: (value) => {
             dispatch(updateNewPostTextAC(value))
         },
-        setLoadingStatus: (loadingStatus) => {
-            dispatch(setLoadingStatusAC(loadingStatus))
-        },
-        setProfile: (response) => {
-            dispatch(setProfileAC(response))
+        setProfile: (userId: string) => {
+            dispatch(setUserProfileTC(userId))
         },
     }
 }
@@ -54,8 +49,7 @@ type ProfilePropsType = {
     addMessage: () => void
     updateTextArea: (value: string) => void
     loadingStatus: boolean
-    setLoadingStatus: (loadingStatus: boolean) => void
-    setProfile: (response: UserType) => void
+    setProfile: (userId: string) => void
     userId?: string
 }
 

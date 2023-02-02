@@ -8,12 +8,20 @@ export const instance = axios.create({
     }
 });
 
-// fetching to https://social-network.samuraijs.com/api/1.0/
+// fetching from https://social-network.samuraijs.com/api/1.0/
 export const fetching_API = {
     // return object with user id, e-mail and login
     getUserToken: async function () {
         return await instance.get('/auth/me')
-            .then(response => response.data.data)
+            .then(response => {
+               return  response.data.data
+            })
+    },
+    getUserAvatar: async function(id: number){
+      return await instance.get('/profile/' + id)
+          .then(response => {
+              return  response.data.photos
+          })
     },
     getProfile: async function (userId: string) {
         return instance.get(`/profile/${userId}`)

@@ -19,9 +19,7 @@ export const Profile = (props: ProfilePropsType) => {
 
     return (
         <div>
-
             <div className={s.image}>
-
                 <img src={'https://zebrasci.com/wp-content/uploads/2019/03/device-testing-banner-1600x200.png'}
                      alt={'bla'}/>
             </div>

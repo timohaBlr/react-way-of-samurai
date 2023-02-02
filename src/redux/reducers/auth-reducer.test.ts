@@ -5,6 +5,7 @@ test('authorised user data should be set', () => {
         id: 2,
         email: '1212@gmail.com',
         login: 'asdasd',
+        avatar: '',
     }
     const authorised = authReducer(initialState, setAuthorisedUsedAC(data))
 
