@@ -8,6 +8,7 @@ import {
 } from "../../redux/reducers/users-reducer";
 import {UsersClass} from "./UsersClass";
 import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 export type MapStatePropsType = {
@@ -16,9 +17,8 @@ export type MapStatePropsType = {
     pageNumber: number
     loadingStatus: boolean
     changingFollowing: string[]
-    isLogin: boolean
 }
-export type mapDispatchToProps = {
+export type mapDispatchToPropsType = {
     toggleFollow: (userId: string) => void
     toggleUnfollow: (userId: string) => void
     setUsers: (pageSize: number, pageNumber: number) => void
@@ -31,11 +31,10 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
         pageNumber: state.usersPage.pageNumber,
         loadingStatus: state.usersPage.loadingStatus,
         changingFollowing: state.usersPage.changingFollowing,
-        isLogin: state.authentication.isLogin
     }
 }
 
-const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
+const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToPropsType => {
     return {
         toggleFollow: (userId: string) => {
             dispatch(followUserTC(userId))
@@ -52,4 +51,7 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
     }
 }
 
-export const UsersContainer = React.memo(connect(mapStateToProps, mapDispatchToProps)(UsersClass))
+const withRedirectUserClass = withAuthRedirect(UsersClass)
+
+
+export const UsersContainer = React.memo(connect(mapStateToProps, mapDispatchToProps)(withRedirectUserClass))

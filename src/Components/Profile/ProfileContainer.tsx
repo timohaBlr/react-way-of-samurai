@@ -1,13 +1,15 @@
 import {connect} from "react-redux";
 import {
-    addNewPostAC, PostsType,  setUserProfileTC,
+    addNewPostAC, PostsType, setUserProfileTC,
     updateNewPostTextAC,
     UserType
 } from "../../redux/reducers/profile-reducer";
 import React from "react";
-import {useParams} from "react-router-dom";
 import {ProfileClass} from "./ProfileClass";
 import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
+import {withRoute} from "../../hoc/withRoute";
 
 export type MapStatePropsTypeType = {
     user: UserType | null
@@ -42,23 +44,14 @@ const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType =
         },
     }
 }
-type ProfilePropsType = {
-    user: UserType | null
-    posts: Array<PostsType>
-    newPostText: string
-    addMessage: () => void
-    updateTextArea: (value: string) => void
-    loadingStatus: boolean
-    setProfile: (userId: string) => void
-    userId?: string
-}
 
 
-const TakeParams = (props: ProfilePropsType) => {
-    let {userId} = useParams()
-    return <ProfileClass {...props} userId={userId}/>
-}
+export const ProfileContainer = compose<React.ComponentType>(
+    React.memo,
+    withAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps),
+    withRoute
+)(ProfileClass)
 
 
-export const ProfileContainer = React.memo(connect(mapStateToProps, mapDispatchToProps)(TakeParams))
 

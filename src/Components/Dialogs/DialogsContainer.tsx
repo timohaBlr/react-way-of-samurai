@@ -9,7 +9,7 @@ import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
 export type MapStatePropsType = {
     dialogsPage: DialogsInitialStateType
 }
-export type mapDispatchToProps = {
+export type mapDispatchToPropsType = {
     addMessage: () => void
     updateTextArea: (value: string) =>void
 }
@@ -18,7 +18,7 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
         dialogsPage: state.dialogsPage
     }
 }
-const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToProps => {
+const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToPropsType => {
     return {
         addMessage: () => {
             dispatch(addNewMessageAC())

@@ -2,7 +2,6 @@ import React from 'react';
 import {UserType} from "../../redux/reducers/users-reducer";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
-import {Navigate} from "react-router-dom";
 
 
 type UsersPropsType = {
@@ -15,7 +14,6 @@ type UsersPropsType = {
     setUsers: (pageSize: number, pageNumber: number) => void
     setPageNumber: (pageNumber: number) => void
     changingFollowing: string[]
-    isLogin: boolean
 }
 
 export class UsersClass extends React.Component<UsersPropsType, any> {
@@ -40,11 +38,7 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
 
 
     render() {
-       if (!this.props.isLogin) {
 
-           return  <Navigate to={'/login'}/>
-
-       }
         return <div>{this.props.loadingStatus && <Preloader/>}
             <Users users={this.props.users}
                    setCurrentPageCallBack={this.setCurrentPageCallBack}
