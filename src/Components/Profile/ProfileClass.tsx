@@ -1,6 +1,7 @@
 import React from 'react';
 import {Profile} from "./Profile";
 import {PostsType, UserType} from "../../redux/reducers/profile-reducer";
+import {Navigate} from "react-router-dom";
 
 
 type ProfilePropsType = {
@@ -11,7 +12,13 @@ type ProfilePropsType = {
     updateTextArea: (value: string) => void
     loadingStatus: boolean
     setProfile: (userId: string) => void
+    setStatus: (status: string) => void
+    getStatus: (userId: string) => void
     userId?: string
+    status: string
+}
+type ProfileStateType = {
+
 }
 
 export class ProfileClass extends React.Component<ProfilePropsType, any> {
@@ -20,8 +27,16 @@ export class ProfileClass extends React.Component<ProfilePropsType, any> {
         let userId = this.props.userId
         if (userId) {
             this.props.setProfile(userId)
+            this.props.getStatus(userId)
         }
     }
+    // componentDidUpdate(prevProps: Readonly<ProfilePropsType>,
+    //                    prevState: Readonly<ProfileStateType>,
+    //                    snapshot?: any) {
+    //     if (prevProps.user !== this.props.user) {
+    //         return <Navigate to={'/profile/'+this.props.user?.userId}/>
+    //     }
+    // }
 
 
     render() {
@@ -31,6 +46,10 @@ export class ProfileClass extends React.Component<ProfilePropsType, any> {
                         newPostText={this.props.newPostText}
                         addMessage={this.props.addMessage}
                         updateTextArea={this.props.updateTextArea}
-                        loadingStatus={this.props.loadingStatus}/>
+                        loadingStatus={this.props.loadingStatus}
+                        status={this.props.status}
+                        setStatus={this.props.setStatus}
+                        // getStatus={this.props.getStatus}
+        />
     }
 }

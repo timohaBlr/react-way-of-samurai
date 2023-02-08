@@ -1,4 +1,4 @@
-import React, {ComponentType} from "react";
+import React, {ComponentType, useEffect} from "react";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../redux/redux-store";
 import {Navigate} from "react-router-dom";
@@ -14,8 +14,7 @@ const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
 
 
 export function withAuthRedirect<T>(Component: ComponentType<T>) {
-    const redirectComponent = (props: MapStatePropsType) => {
-        debugger
+    const RedirectComponent = (props: MapStatePropsType) => {
         let {isLogin, ...restProps} = props
         if (!isLogin) {
             return <Navigate to={'/login'}/>
@@ -24,5 +23,5 @@ export function withAuthRedirect<T>(Component: ComponentType<T>) {
     }
 
 
-    return connect(mapStateToProps,{})(redirectComponent)
+    return connect(mapStateToProps,{})(RedirectComponent)
 }

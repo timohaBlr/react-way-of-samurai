@@ -1,34 +1,38 @@
 import React from 'react';
-import {UserType} from "../../redux/reducers/users-reducer";
+import {UsersFilterType, UsersInitialStateType, UserType} from "../../redux/reducers/users-reducer";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
 
 
 type UsersPropsType = {
-    users: UserType[]
-    pageSize: number
-    pageNumber: number
-    loadingStatus: boolean
+    usersPage: UsersInitialStateType
+    // users: UserType[]
+    // pageSize: number
+    // pageNumber: number
+    // loadingStatus: boolean
     toggleUnfollow: (userId: string) => void
     toggleFollow: (userId: string) => void
-    setUsers: (pageSize: number, pageNumber: number) => void
+    setUsers: (pageSize: number, pageNumber: number, filter: UsersFilterType) => void
     setPageNumber: (pageNumber: number) => void
-    changingFollowing: string[]
+    // changingFollowing: string[]
 }
 
 export class UsersClass extends React.Component<UsersPropsType, any> {
-
     componentDidMount() {
-        this.props.setUsers(this.props.pageSize, this.props.pageNumber)
+        this.props.setUsers(this.props.usersPage.pageSize,
+            this.props.usersPage.pageNumber,
+            this.props.usersPage.filter)
     }
 
     setCurrentPageCallBack = (currentPage: number) => {
         this.props.setPageNumber(currentPage)
-        this.props.setUsers(this.props.pageSize, currentPage)
+        this.props.setUsers(this.props.usersPage.pageSize,
+            currentPage,
+            this.props.usersPage.filter)
     }
 
     toggleFollowingCallBack = (userId: string) => {
-        let user = this.props.users.find(user => user.id === userId)
+        let user = this.props.usersPage.users.find(user => user.id === userId)
         if (user!.followed) {
             this.props.toggleUnfollow(userId)
         } else {
@@ -39,11 +43,11 @@ export class UsersClass extends React.Component<UsersPropsType, any> {
 
     render() {
 
-        return <div>{this.props.loadingStatus && <Preloader/>}
-            <Users users={this.props.users}
+        return <div>{this.props.usersPage.loadingStatus && <Preloader/>}
+            <Users users={this.props.usersPage.users}
                    setCurrentPageCallBack={this.setCurrentPageCallBack}
                    toggleFollowingCallBack={this.toggleFollowingCallBack}
-                   changingFollowing={this.props.changingFollowing}/>
+                   changingFollowing={this.props.usersPage.changingFollowing}/>
 
         </div>
     }

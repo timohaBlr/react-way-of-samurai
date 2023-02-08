@@ -24,6 +24,7 @@ const profileInitialState = {
             large:  null,
         },
     },
+    status: 'student',
     loadingStatus: false,
     posts: [
         {id: 1, message: 'Hello', likesCount: 4},
@@ -44,6 +45,7 @@ const response = {
         "github": null,
         "mainLink": null
     },
+    'status': '',
     "lookingForAJob": false,
     "lookingForAJobDescription": null,
     "fullName": "skysoul",

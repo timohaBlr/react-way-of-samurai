@@ -1,6 +1,8 @@
 import {AppThunk} from "../redux-store";
-import {fetching_API} from "../../Api/api";
+import {profileAPI, userAPI} from "../../Api/api";
 import {setUserProfileTC} from "./profile-reducer";
+import {ThunkDispatch} from "redux-thunk";
+import {AnyAction} from "redux";
 
 enum ACTION_TYPES {
     SET_AUTHORISED_USER = 'SET_AUTHORISED_USER',
@@ -50,10 +52,11 @@ export const setAuthorisedUserAvatarAC = (avatar: string) => {
     } as const
 }
 
+
 type ThunkType = AppThunk<ActionsType>
-export const setAuthorisedUsedTC = (): ThunkType => {
+export const setAuthorisedUserTC = (): ThunkType => {
     return (dispatch) => {
-        fetching_API.getUserToken()
+        profileAPI.getUserToken()
             .then(response => {
                 const data = response.data
                 if (data.resultCode === 0) {
@@ -66,20 +69,17 @@ export const setAuthorisedUsedTC = (): ThunkType => {
                 dispatch(setAuthorisedUsedAvatarTC(id))
             })
             .catch(err => {
-                console.log(err)
             })
             .finally()
     }
 }
 export const setAuthorisedUsedAvatarTC = (id: number): ThunkType => {
     return (dispatch) => {
-        fetching_API.getUserAvatar(id)
+        userAPI.getUserAvatar(id)
             .then(ava => {
-                console.log(ava)
                 dispatch(setAuthorisedUserAvatarAC(ava.small))
             })
             .catch(err => {
-                console.log(err)
             })
             .finally()
     }

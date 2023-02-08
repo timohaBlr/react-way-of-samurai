@@ -13,12 +13,17 @@ export const Navbar = () => {
     return (
         <div>
             <div>
-                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item}
+                <NavLink className={NavLink => NavLink.isActive
+                    ? s.active
+                    : s.item}
                          to='/profile/27337'
                          onClick={profileClickHandler}> Profile</NavLink>
             </div>
             <div>
-                <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/dialogs'>Messages</NavLink>
+                <NavLink className={NavLink => NavLink.isActive
+                    ? s.active
+                    : s.item}
+                         to='/dialogs'>Messages</NavLink>
             </div>
             <div>
                 <NavLink className={NavLink => NavLink.isActive ? s.active : s.item} to='/news'>News</NavLink>

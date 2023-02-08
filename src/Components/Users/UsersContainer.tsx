@@ -3,34 +3,37 @@ import {connect} from "react-redux";
 import {
     followUserTC,
     setPageNumberAC,
-    setUsersTC, unfollowUserTC,
+    setUsersTC, unfollowUserTC, UsersFilterType, UsersInitialStateType,
     UserType
 } from "../../redux/reducers/users-reducer";
 import {UsersClass} from "./UsersClass";
 import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 
 export type MapStatePropsType = {
-    users: UserType[]
-    pageSize: number
-    pageNumber: number
-    loadingStatus: boolean
-    changingFollowing: string[]
+    usersPage: UsersInitialStateType
+    // users: UserType[]
+    // pageSize: number
+    // pageNumber: number
+    // loadingStatus: boolean
+    // changingFollowing: string[]
 }
 export type mapDispatchToPropsType = {
     toggleFollow: (userId: string) => void
     toggleUnfollow: (userId: string) => void
-    setUsers: (pageSize: number, pageNumber: number) => void
+    setUsers: (pageSize: number, pageNumber: number, filter: UsersFilterType) => void
     setPageNumber: (pageNumber: number) => void
 }
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        pageNumber: state.usersPage.pageNumber,
-        loadingStatus: state.usersPage.loadingStatus,
-        changingFollowing: state.usersPage.changingFollowing,
+        usersPage: state.usersPage,
+        // users: state.usersPage.users,
+        // pageSize: state.usersPage.pageSize,
+        // pageNumber: state.usersPage.pageNumber,
+        // loadingStatus: state.usersPage.loadingStatus,
+        // changingFollowing: state.usersPage.changingFollowing,
     }
 }
 
@@ -42,8 +45,8 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToPropsType =
         toggleUnfollow: (userId: string) => {
             dispatch(unfollowUserTC(userId))
         },
-        setUsers: (pageSize: number, pageNumber: number) => {
-            dispatch(setUsersTC(pageSize, pageNumber))
+        setUsers: (pageSize: number, pageNumber: number, filter: UsersFilterType) => {
+            dispatch(setUsersTC(pageSize, pageNumber, filter))
         },
         setPageNumber: (pageNumber) => {
             dispatch(setPageNumberAC(pageNumber))
@@ -51,7 +54,9 @@ const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToPropsType =
     }
 }
 
-const withRedirectUserClass = withAuthRedirect(UsersClass)
 
-
-export const UsersContainer = React.memo(connect(mapStateToProps, mapDispatchToProps)(withRedirectUserClass))
+export const UsersContainer = compose<React.ComponentType>(
+    React.memo,
+    withAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps),
+)(UsersClass)

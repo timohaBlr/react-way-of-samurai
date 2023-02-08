@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import Navbar from "./Components/Navbar/Navbar";
 import {Header} from "./Components/Header/Header";
@@ -10,9 +10,16 @@ import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import {Login} from "./Components/Login/Login";
+import {setAuthorisedUserTC} from "./redux/reducers/auth-reduser";
+import {useAppDispatch} from "./redux/hooks";
+
 
 
 function App() {
+    const dispatch = useAppDispatch()
+    useEffect(()=> {
+        dispatch(setAuthorisedUserTC())
+    })
     return (
         <div className="App">
             <div className={'header'}><Header/></div>

@@ -13,6 +13,9 @@ type ProfilePropsType = {
     addMessage: () => void
     updateTextArea: (value: string) => void
     loadingStatus: boolean
+    status: string
+    setStatus: (status: string) => void
+    // getStatus: (userId: string) => void
 }
 
 export const Profile = (props: ProfilePropsType) => {
@@ -26,7 +29,10 @@ export const Profile = (props: ProfilePropsType) => {
             <div className={s.user}>
                 {props.loadingStatus
                     ? <Preloader/>
-                    : <ProfileInfo user={props.user}/>}
+                    : <ProfileInfo status={props.status} user={props.user}
+                                   setStatus={props.setStatus}
+                                   // getStatus={props.getStatus}
+                    />}
             </div>
             <div>
                 <MyPosts posts={props.posts}

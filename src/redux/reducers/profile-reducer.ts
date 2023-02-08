@@ -1,23 +1,26 @@
 import {AppThunk} from "../redux-store";
-import {fetching_API} from "../../Api/api";
+import {profileAPI} from "../../Api/api";
 
 enum PROFILE_ACTIONS_TYPE {
     UPDATE_TEXT_AREA = 'UPDATE_TEXT_AREA',
     ADD_POST = 'ADD_POST',
     SET_PROFILE = 'SET_PROFILE',
     SET_LOADING_STATUS = 'SET_LOADING_STATUS',
+    SET_STATUS = 'SET_STATUS',
 }
 
 
 type ActionsType = UpdateNewPostTextType | AddNewPostType | SetProfileActionType
-    | SetLoadingStatusActionType
+    | SetLoadingStatusActionType | SetStatusAT
 type AddNewPostType = ReturnType<typeof addNewPostAC>
 type UpdateNewPostTextType = ReturnType<typeof updateNewPostTextAC>
 type SetProfileActionType = ReturnType<typeof setProfileAC>
 type SetLoadingStatusActionType = ReturnType<typeof setLoadingStatusAC>
+type SetStatusAT = ReturnType<typeof setStatusAC>
 
 export type ProfileInitialStateType = {
     user: UserType | null
+    status: string
     posts: Array<PostsType>
     newPostText: string
     loadingStatus: boolean
@@ -73,7 +76,7 @@ const defaultUser: UserType = {
 };
 export const initialState = {
     user: null,
-
+    status: '',
     loadingStatus: false,
     posts: [
         {id: 1, message: 'Hello', likesCount: 4},
@@ -106,6 +109,11 @@ export const profileReducer = (state: ProfileInitialStateType = initialState,
             return {
                 ...state,
                 loadingStatus: action.payload.loadingStatus
+            };
+        case PROFILE_ACTIONS_TYPE.SET_STATUS:
+            return {
+                ...state,
+                status: action.payload.status
             };
         default:
             return state;
@@ -141,22 +149,49 @@ export const setLoadingStatusAC = (loadingStatus: boolean) => {
         },
     } as const
 }
+export const setStatusAC = (status: string) => {
+    return {
+        type: PROFILE_ACTIONS_TYPE.SET_STATUS,
+        payload: {
+            status,
+        },
+    } as const
+}
 
 type ThunkType = AppThunk<ActionsType>
 
 export const setUserProfileTC = (userId: string): ThunkType => {
     return (dispatch) => {
         dispatch(setLoadingStatusAC(true))
-        fetching_API.getProfile(userId)
+        profileAPI.getProfile(userId)
             .then(response => {
-                console.log(response)
                 dispatch(setProfileAC(response.data))
             })
             .catch(err => {
-                console.log(err)
             })
             .finally(() => {
                 dispatch(setLoadingStatusAC(false))
             })
     }
 }
+export const getUserStatusTC = (userId: string): ThunkType => {
+    return (dispatch) => {
+        profileAPI.getStatus(userId)
+            .then(response => {
+                console.log(response)
+                dispatch(setStatusAC(response.data))
+            })
+    }
+}
+export const setUserStatusTC = (status: string): ThunkType => {
+    return (dispatch) => {
+        profileAPI.setStatus(status)
+            .then(response => {
+
+                if (response.data.resultCode === 0) {
+                    dispatch(setStatusAC(status))
+                }
+            })
+    }
+}
+

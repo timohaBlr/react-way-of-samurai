@@ -16,7 +16,6 @@ export const Pagination: React.FC<PaginationPropsType> = ({setCurrentPageCallBac
         setCurrentPageCallBack(pageNumber)
     }
     const buttonClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-        console.log(e.currentTarget.value)
         const buttonsPageNumber = Number(e.currentTarget.value)
         setCurrentPageCallBack(buttonsPageNumber)
     }
@@ -24,7 +23,7 @@ export const Pagination: React.FC<PaginationPropsType> = ({setCurrentPageCallBac
 
 
     const mappedArrPages = arrPages.filter(f => {
-        return (f > 0 && f < pagesCount)
+        return (f > 0 && f <= pagesCount)
     })
         .map(m => {
             return <span key={m}

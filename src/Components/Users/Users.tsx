@@ -2,6 +2,7 @@ import React from 'react';
 import {UserType} from "../../redux/reducers/users-reducer";
 import {User} from "./User";
 import {Pagination} from "./Pagination";
+import {SearchField} from "./SearchField";
 
 
 type UsersPropsType = {
@@ -24,6 +25,7 @@ export const Users: React.FC<UsersPropsType> = React.memo(({
         user={user}/>)
     return <div>
         <Pagination setCurrentPageCallBack={setCurrentPageCallBack}/>
+        <SearchField/>
         <div>
             {mappedUsers}
         </div>

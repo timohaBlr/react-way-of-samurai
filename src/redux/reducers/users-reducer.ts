@@ -1,5 +1,5 @@
 import {AppThunk} from "../redux-store";
-import {fetching_API, instance} from "../../Api/api";
+import {userAPI, instance} from "../../Api/api";
 
 export type UsersInitialStateType = {
     users: UserType[]
@@ -8,6 +8,11 @@ export type UsersInitialStateType = {
     pageNumber: number
     loadingStatus: boolean
     changingFollowing: string[]
+    filter: UsersFilterType
+}
+export type UsersFilterType = {
+    findUser: string
+    onlyFriends: string
 }
 export type UserType = {
     name: string
@@ -31,7 +36,11 @@ export const initialState: UsersInitialStateType = {
     totalUserCount: 54,
     pageNumber: 1,
     loadingStatus: true,
-    changingFollowing: []
+    changingFollowing: [],
+    filter: {
+        findUser: '',
+        onlyFriends: 'null',
+    },
 }
 
 export enum ACTIONS_TYPE {
@@ -41,6 +50,7 @@ export enum ACTIONS_TYPE {
     SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT',
     SET_LOADING_STATUS = 'SET_LOADING_STATUS',
     TOGGLE_FOLLOWING = 'TOGGLE_FOLLOWING',
+    SET_FILTER = 'SET_FILTER',
 }
 
 export const usersReducer = (state: UsersInitialStateType = initialState,
@@ -65,19 +75,25 @@ export const usersReducer = (state: UsersInitialStateType = initialState,
             const userId = action.payload.userId
             if (action.payload.inProgress) {
                 return {...state, changingFollowing: [userId]}
-            } else return {...state, changingFollowing: state.changingFollowing.filter(f => f !== userId)};
+            } else return {...state,
+                changingFollowing: state.changingFollowing
+                    .filter(f => f !== userId)};
+        case ACTIONS_TYPE.SET_FILTER:
+            return {...state, filter: action.payload.filter};
         default:
             return state;
     }
 }
 type ActionsType = ChangeFollowStatusType | SetUsersActionType | setPageNumberActionType
-    | setTotalUserCountActionType | setLoadingStatusActionType | ToggleFollowingActionType
+    | setTotalUserCountActionType | setLoadingStatusActionType |
+    ToggleFollowingActionType | SetFilterActionType
 type ChangeFollowStatusType = ReturnType<typeof changeFollowStatusAC>
 type SetUsersActionType = ReturnType<typeof setUsersAC>
 type setPageNumberActionType = ReturnType<typeof setPageNumberAC>
 type setTotalUserCountActionType = ReturnType<typeof setTotalUserCountAC>
 type setLoadingStatusActionType = ReturnType<typeof setLoadingStatusAC>
 type ToggleFollowingActionType = ReturnType<typeof toggleFollowingAC>
+type SetFilterActionType = ReturnType<typeof setFilterAC>
 
 export const changeFollowStatusAC = (userId: string) => {
     return {
@@ -128,13 +144,21 @@ export const toggleFollowingAC = (userId: string, inProgress: boolean) => {
         },
     } as const
 }
+export const setFilterAC = (filter: UsersFilterType) => {
+    return {
+        type: ACTIONS_TYPE.SET_FILTER,
+        payload: {
+            filter
+        },
+    } as const
+}
 
 type ThunkType = AppThunk<ActionsType>
 
-export const setUsersTC = (pageSize: number, pageNumber: number): ThunkType => {
+export const setUsersTC = (pageSize: number, pageNumber: number, filter: UsersFilterType): ThunkType => {
     return (dispatch) => {
         dispatch(setLoadingStatusAC(true))
-        fetching_API.getUsers(pageSize, pageNumber)
+        userAPI.getUsers(pageSize, pageNumber, filter)
             .then(data => {
                 dispatch(setUsersAC(data.items))
                 dispatch(setTotalUserCountAC(data.totalCount))

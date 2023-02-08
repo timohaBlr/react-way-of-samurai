@@ -1,5 +1,7 @@
+import 'react-app-polyfill/ie11';
 import * as React from 'react';
-import {Formik, Field, Form, FormikHelpers} from 'formik';
+import * as ReactDOM from 'react-dom';
+import { Formik, Field, Form, FormikHelpers } from 'formik';
 
 interface Values {
     firstName: string;
@@ -7,7 +9,7 @@ interface Values {
     email: string;
 }
 
-export const Login = () => {
+const App = () => {
     return (
         <div>
             <h1>Signup</h1>
@@ -19,7 +21,7 @@ export const Login = () => {
                 }}
                 onSubmit={(
                     values: Values,
-                    {setSubmitting}: FormikHelpers<Values>
+                    { setSubmitting }: FormikHelpers<Values>
                 ) => {
                     setTimeout(() => {
                         alert(JSON.stringify(values, null, 2));
@@ -29,10 +31,10 @@ export const Login = () => {
             >
                 <Form>
                     <label htmlFor="firstName">First Name</label>
-                    <Field id="firstName" name="firstName" placeholder="John"/>
+                    <Field id="firstName" name="firstName" placeholder="John" />
 
                     <label htmlFor="lastName">Last Name</label>
-                    <Field id="lastName" name="lastName" placeholder="Doe"/>
+                    <Field id="lastName" name="lastName" placeholder="Doe" />
 
                     <label htmlFor="email">Email</label>
                     <Field
@@ -49,3 +51,4 @@ export const Login = () => {
     );
 };
 
+ReactDOM.render(<App />, document.getElementById('root'));
