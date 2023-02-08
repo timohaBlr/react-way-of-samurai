@@ -9,23 +9,24 @@ enum ACTION_TYPES {
     SET_AVATAR = 'SET_AVATAR',
 }
 
-export type DataType = Omit<InitialStateType, 'isLogin'>
+export type AuthDataType = Omit<InitialStateType, 'isLogin'>
 type SetAuthorisedUserActionType = ReturnType<typeof setAuthorisedUserAC>
 type SetAuthorisedUserAvatarActionType = ReturnType<typeof setAuthorisedUserAvatarAC>
 type ActionsType = SetAuthorisedUserActionType | SetAuthorisedUserAvatarActionType
 export type InitialStateType = {
     id: number | null
-    email: string | null
-    login: string | null
+    email: string
+    login: string
     isLogin: boolean
-    avatar: string | null
+    avatar: string
 }
 export const initialState: InitialStateType = {} as InitialStateType
 
 export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
         case ACTION_TYPES.SET_AUTHORISED_USER:
-            return {...state, ...action.payload, isLogin: true};
+            debugger
+            return {...state, ...action.payload};
         case ACTION_TYPES.SET_AVATAR:
             return {...state, avatar: action.payload.avatar};
         default:
@@ -34,11 +35,12 @@ export const authReducer = (state: InitialStateType = initialState, action: Acti
 }
 
 
-export const setAuthorisedUserAC = (data: DataType) => {
+export const setAuthorisedUserAC = (data: AuthDataType, isLogin: boolean) => {
     return {
         type: ACTION_TYPES.SET_AUTHORISED_USER,
         payload: {
-            ...data
+            ...data,
+            isLogin,
         },
     } as const
 }
@@ -60,8 +62,8 @@ export const setAuthorisedUserTC = (): ThunkType => {
             .then(response => {
                 const data = response.data
                 if (data.resultCode === 0) {
-                    dispatch(setAuthorisedUserAC(data.data))
-                    return data.id
+                    dispatch(setAuthorisedUserAC(data.data, true))
+                    return data.data.id
                 }
             })
             .then(id => {
@@ -78,6 +80,35 @@ export const setAuthorisedUsedAvatarTC = (id: number): ThunkType => {
         userAPI.getUserAvatar(id)
             .then(ava => {
                 dispatch(setAuthorisedUserAvatarAC(ava.small))
+            })
+            .catch(err => {
+            })
+            .finally()
+    }
+}
+export const logOutTC = (): ThunkType => {
+    return (dispatch) => {
+        userAPI.logOut()
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(setAuthorisedUserAC({id: null, avatar: '', login: '', email: ''},
+                        false))
+                }
+            })
+            .catch(err => {
+            })
+            .finally()
+    }
+}
+export const logInTC = (email: string, password: string, rememberMe: boolean,): ThunkType => {
+    return (dispatch) => {
+        userAPI.logIn(email,password,rememberMe)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(setAuthorisedUserAC({id: response.data.id,
+                            avatar: '', login: '', email},
+                        true))
+                }
             })
             .catch(err => {
             })

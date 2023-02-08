@@ -29,6 +29,27 @@ export const userAPI = {
         return instance.get(`/users?${pNumber}${pSize}${term}${friend}`)
             .then(response => response.data)
     },
+    /**
+     * Properties
+     * email: required(string)
+     * valid confirmed user email address, which used during registration
+     *
+     * password: required(string)
+     * valid user password
+     *
+     * rememberMe: (boolean)
+     * if true, then session will not be expired after session finishing
+     *
+     * captcha: (boolean)
+     * text from captcha-image that should be added if there is resultCode is 10 in response data.
+     */
+    logIn: async function (email: string, password: string, rememberMe: boolean,captcha: string | null = null) {
+        const payload = {email, password, rememberMe, captcha}
+        return await instance.post('/auth/login', payload)
+    },
+    logOut: async function () {
+        return await instance.delete('/auth/login')
+    },
     getProfile: async function (userId: string) {
         console.warn('Obsolete method. Use profileAPI.getProfile')
         return profileAPI.getProfile(userId)

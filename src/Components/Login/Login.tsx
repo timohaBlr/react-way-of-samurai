@@ -1,49 +1,66 @@
 import * as React from 'react';
 import {Formik, Field, Form, FormikHelpers} from 'formik';
+import s from './Login.module.css'
+import * as Yup from 'yup';
+import {useAppDispatch} from "../../redux/hooks";
+import {logInTC} from "../../redux/reducers/auth-reduser";
 
-interface Values {
-    firstName: string;
-    lastName: string;
-    email: string;
+type Values = {
+    email: string
+    password: string
+    rememberMe: boolean
 }
 
+const LoginSchema = Yup.object().shape({
+    email: Yup.string()
+        .email('Invalid email')
+        .required('Required'),
+    password: Yup.string()
+        .min(8, 'Password should be more then 8 symbols')
+        .max(50, 'Too Long!')
+        .required('Password is required'),
+});
+
 export const Login = () => {
+    const dispatch = useAppDispatch()
     return (
-        <div>
-            <h1>Signup</h1>
+        <div className={s.login}>
             <Formik
                 initialValues={{
-                    firstName: '',
-                    lastName: '',
                     email: '',
+                    password: '',
+                    rememberMe: false,
                 }}
+                validationSchema={LoginSchema}
                 onSubmit={(
                     values: Values,
-                    {setSubmitting}: FormikHelpers<Values>
-                ) => {
-                    setTimeout(() => {
-                        alert(JSON.stringify(values, null, 2));
-                        setSubmitting(false);
-                    }, 500);
+                    {setSubmitting}: FormikHelpers<Values>) => {
+                    dispatch(logInTC(values.email, values.password, values.rememberMe))
+                    setSubmitting(false);
                 }}
             >
-                <Form>
-                    <label htmlFor="firstName">First Name</label>
-                    <Field id="firstName" name="firstName" placeholder="John"/>
-
-                    <label htmlFor="lastName">Last Name</label>
-                    <Field id="lastName" name="lastName" placeholder="Doe"/>
-
-                    <label htmlFor="email">Email</label>
-                    <Field
-                        id="email"
-                        name="email"
-                        placeholder="john@acme.com"
-                        type="email"
-                    />
-
-                    <button type="submit">Submit</button>
-                </Form>
+                {
+                    ({errors, touched}) => {
+                        return <Form className={s.form}>
+                            <label htmlFor="email">Email</label>
+                            <Field
+                                id="email"
+                                name="email"
+                                placeholder="john@acme.com"
+                                type="email"
+                            />
+                            {errors.email && touched.email ? (
+                                <div>{errors.email}</div>
+                            ) : null}
+                            <label htmlFor="password">Password</label>
+                            <Field id="password" name="password" placeholder="Doe"/>
+                            {errors.password && touched.password ? (
+                                <div>{errors.password}</div>
+                            ) : null}
+                            <button type="submit">Submit</button>
+                        </Form>
+                    }
+                }
             </Formik>
         </div>
     );

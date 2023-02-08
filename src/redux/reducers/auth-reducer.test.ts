@@ -7,7 +7,7 @@ test('authorised user data should be set', () => {
         login: 'asdasd',
         avatar: '',
     }
-    const authorised = authReducer(initialState, setAuthorisedUserAC(data))
+    const authorised = authReducer(initialState, setAuthorisedUserAC(data,true))
 
     expect(initialState).not.toBe(authorised)
     expect(authorised.isLogin).toBeTruthy()

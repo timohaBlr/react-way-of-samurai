@@ -1,5 +1,5 @@
 import React from 'react';
-import {Form, Formik, FormikHelpers,Field} from 'formik';
+import {Form, Formik, FormikHelpers, Field} from 'formik';
 import {useAppDispatch} from "../../redux/hooks";
 import {setFilterAC, setUsersTC, UsersFilterType} from "../../redux/reducers/users-reducer";
 
@@ -36,7 +36,7 @@ export const SearchField = () => {
                     <Field id='findUser' name='findUser' placeholder='Find...'/>
                     <button type={'submit'}>Find</button>
                     <label htmlFor={'onlyFriends'}>Friends only</label>
-                    <Field   name="onlyFriends" as='select'>
+                    <Field name="onlyFriends" as='select'>
                         <option value="null">All</option>
                         <option value="true" datatype={'boolean'}>Friends</option>
                         <option value="false">Not Friends</option>
