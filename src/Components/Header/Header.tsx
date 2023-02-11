@@ -17,9 +17,9 @@ export const Header = () => {
                 <Logo/>
             </div>
             <div className={s.loggedUser}>
-                {/*<Avatar size={'60px'} isCircle={true} source={loggedUser.avatar*/}
-                {/*    ? loggedUser.avatar*/}
-                {/*    : ava}/>*/}
+                <Avatar size={'60px'} isCircle={true} source={loggedUser.avatar
+                    ? loggedUser.avatar
+                    : ava}/>
                 <div className={s.login}>
                     {loggedUser.isLogin
                         ? <div>

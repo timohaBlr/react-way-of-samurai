@@ -1,5 +1,6 @@
-import {addNewPostAC,  profileReducer} from "./reducers/profile-reducer";
+import {  profileReducer} from "./reducers/profile/profile-reducer";
 import {dialogsAddReducer} from "./reducers/dialogs-add-reducer";
+import {addNewPostAC} from "./reducers/profile/actions";
 
  type UserType = {
     name: string

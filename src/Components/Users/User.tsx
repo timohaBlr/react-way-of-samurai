@@ -1,26 +1,30 @@
 import React from 'react';
-import {UserType} from "../../redux/reducers/users-reducer";
+import {UserType} from "../../redux/reducers/users/types";
 import s from './User.module.css'
 import {SuperButton} from "../Common/Button/SuperButton";
 import {NavLink} from "react-router-dom";
 import {useAppDispatch} from "../../redux/hooks";
-import {setProfileAC, setUserProfileTC} from "../../redux/reducers/profile-reducer";
 
 type UserPropsType = {
     user: UserType
     toggleFollowingCallBack: (userId: string) => void
     changingFollowing: string[]
 }
-export const User: React.FC<UserPropsType> = React.memo(({user,changingFollowing, toggleFollowingCallBack, ...restProps}) => {
+export const User: React.FC<UserPropsType> = React.memo(({
+                                                             user,
+                                                             changingFollowing,
+                                                             toggleFollowingCallBack,
+                                                             ...restProps
+                                                         }) => {
     const dispatch = useAppDispatch()
     const ava = 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
 
-   const buttonFollowOnClickHandler = ()=> {
-       toggleFollowingCallBack(user.id)
+    const buttonFollowOnClickHandler = () => {
+        toggleFollowingCallBack(user.id)
     }
-    const disabled = changingFollowing.some(id=> id ===user.id)
+    const disabled = changingFollowing.some(id => id === user.id)
     const avaClickHandler = () => {
-      dispatch(setUserProfileTC(user.id))
+        // dispatch(setDisplayedProfileTC(user.id))
     }
     return (
         <div className={s.userWrapper}>
@@ -33,7 +37,7 @@ export const User: React.FC<UserPropsType> = React.memo(({user,changingFollowing
                 <div className={s.button}>
                     <SuperButton
                         disabled={disabled}
-                        onClick={buttonFollowOnClickHandler}>{user.followed ?'Unfollow':  'Follow'}</SuperButton>
+                        onClick={buttonFollowOnClickHandler}>{user.followed ? 'Unfollow' : 'Follow'}</SuperButton>
                 </div>
             </div>
             <div className={s.userInfo}>

@@ -1,13 +1,10 @@
 import React from 'react';
 import {NewPost} from "./NewPost/NewPost";
 import {Post} from "./Post/Post";
-import {
-    addNewPostAC,
-    PostsType,
-    updateNewPostTextAC
-} from "../../../redux/reducers/profile-reducer";
+import {PostsType} from "../../../redux/reducers/profile/types";
 import {connect} from "react-redux";
 import {AppDispatchType, AppRootStateType} from "../../../redux/redux-store";
+import {addNewPostAC, updateNewPostTextAC} from "../../../redux/reducers/profile/actions";
 
 
 type MyPostsPropsType = {

@@ -25,8 +25,8 @@ const LoginSchema = Yup.object().shape({
 export const Login = () => {
     console.log('login')
     const dispatch = useAppDispatch()
-    const isLoggin = useAppSelector((state)=>state.authentication.isLogin)
-    if(isLoggin){
+    const isLogin = useAppSelector((state)=>state.authentication.isLogin)
+    if(isLogin){
         return  <Navigate to={'/profile'}/>
     }
     return (

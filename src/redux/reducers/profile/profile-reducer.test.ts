@@ -1,8 +1,8 @@
-import {initialState, profileReducer, setProfileAC} from "./profile-reducer";
-import {setLoadingStatusAC} from "./profile-reducer";
+import {setLoadingStatusAC, setLoggedInUserAC} from "./actions";
+import {profileInitialState, profileReducer} from "./profile-reducer";
 
 
-const profileInitialState = initialState
+const profileInitialStateTest = profileInitialState
 const response = {
     "aboutMe": null,
     "contacts": {
@@ -27,17 +27,17 @@ const response = {
 }
 
 test('loading status should be true while loading', () => {
-    const newProfileState = profileReducer(profileInitialState, setLoadingStatusAC(true))
+    const newProfileState = profileReducer(profileInitialStateTest, setLoadingStatusAC(true))
 
-    expect(profileInitialState).not.toBe(newProfileState)
+    expect(profileInitialStateTest).not.toBe(newProfileState)
     expect(newProfileState.loadingStatus).toBeTruthy()
-    expect(profileInitialState.loadingStatus).toBeFalsy()
+    expect(profileInitialStateTest.loadingStatus).toBeFalsy()
 })
 
 test('profile info should be changed', ()=> {
-    const newProfileState = profileReducer(profileInitialState, setProfileAC(response))
+    const newProfileState = profileReducer(profileInitialStateTest, setLoggedInUserAC(response))
 
-    expect(profileInitialState).not.toBe(newProfileState)
+    expect(profileInitialStateTest).not.toBe(newProfileState)
     expect(newProfileState.displayedProfile!.userId).toBe(31)
     expect(newProfileState.displayedProfile!.aboutMe).not.toBe('Programmer')
 })

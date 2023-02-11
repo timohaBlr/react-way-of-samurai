@@ -1,5 +1,5 @@
 import React from 'react';
-import {UsersFilterType, UsersInitialStateType, UserType} from "../../redux/reducers/users-reducer";
+import {UsersFilterType, UsersInitialStateType, UserType} from "../../redux/reducers/users/types";
 import {Users} from "./Users";
 import {Preloader} from "../Common/Preloader/Preloader";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {UserType} from "../../redux/reducers/users-reducer";
+import {UserType} from "../../redux/reducers/users/types";
 import {User} from "./User";
 import {Pagination} from "./Pagination";
 import {SearchField} from "./SearchField";

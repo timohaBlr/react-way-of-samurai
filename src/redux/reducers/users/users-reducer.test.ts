@@ -1,11 +1,10 @@
 import {
-    changeFollowStatusAC,
     initialState,
-    toggleFollowingAC,
-    UsersInitialStateType,
     usersReducer
 } from "./users-reducer";
 import {v1} from "uuid";
+import {changeFollowStatusAC, toggleFollowingAC} from "./actions";
+import {UsersInitialStateType} from "./types";
 
 const initialUserId1 = v1()
 const initialUserId2 = v1()

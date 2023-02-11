@@ -1,7 +1,7 @@
 import React, {ChangeEvent} from "react";
 import {
     setUserStatusTC,
-} from "../../../redux/reducers/profile-reducer";
+} from "../../../redux/reducers/profile/profile-reducer";
 import {AppDispatchType, AppRootStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
 

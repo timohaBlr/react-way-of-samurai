@@ -1,12 +1,13 @@
 import React from 'react';
 import {Profile} from "./Profile";
-import { ProfileType} from "../../redux/reducers/profile-reducer";
+import {ProfileType} from "../../redux/reducers/profile/types";
 
 
 type ProfilePropsType = {
+    // loadingStatus: boolean
     loggedInUser: ProfileType | null
     displayedProfile: ProfileType | null
-    setProfile: (userId: string) => void
+    setDisplayedProfileTC: (userId: string) => void
     userId?: string
 }
 type ProfileStateType = {
@@ -15,35 +16,36 @@ type ProfileStateType = {
 }
 
 export class ProfileClass extends React.Component<ProfilePropsType, ProfileStateType> {
-    constructor(props: ProfilePropsType) {
-        super(props);
-        this.state = {
-            userId: null,
-            user: null
+
+    componentDidMount() {
+        console.log('did mount')
+        if (this.props.userId) {
+            this.props.setDisplayedProfileTC(this.props.userId)
         }
     }
 
-    componentDidMount() {
-        console.log('component did mount')
+    componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
+        console.log('did update')
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
-        console.log('component did update')
-        // if (this.state === prevState) {
-        //     this.setState((state, props)=> {
-        //         return {
-        //             user: props.loggedInUser
-        //         }
-        //     })
-        // }
+    shouldComponentUpdate(nextProps: Readonly<ProfilePropsType>, nextState: Readonly<ProfileStateType>, nextContext: any): boolean {
+        return this.props.userId !== nextProps.userId //обновление при загрузке по скопированной ссылке
+            || this.props.loggedInUser !== nextProps.loggedInUser // обновление при первом старте приложения
+            || this.props.displayedProfile !== nextProps.displayedProfile
+    }
+
+    componentWillUnmount() {
+
     }
 
     render() {
-        // console.log('profile render props', this.props.loggedInUser?.fullName)
-        // console.log('profile render state', this.state.user?.fullName)
-        if (!this.state.user) return <div>This profile does not exist. Create new profile?</div>
+        const profileToRender = this.props.displayedProfile
+            ? this.props.displayedProfile
+            : this.props.loggedInUser
 
-        return <Profile user={this.state.user}
+        if (!profileToRender) return <div>This profile does not exist. Create new profile?</div>
+
+        return <Profile user={profileToRender}
         />
     }
 }

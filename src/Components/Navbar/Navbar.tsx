@@ -2,14 +2,13 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import s from './Navbar.module.css'
 import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import { setUserProfileTC} from "../../redux/reducers/profile-reducer";
+import {setDisplayedProfileAC} from "../../redux/reducers/profile/actions";
 
 export const Navbar = () => {
     const dispatch = useAppDispatch()
     const id = useAppSelector(state => state.authentication.id)
     const profileClickHandler = () => {
-
-        // dispatch(setUserProfileTC(id + ''))
+        dispatch(setDisplayedProfileAC(null))
     }
     return (
         <div>

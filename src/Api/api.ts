@@ -1,5 +1,5 @@
 import axios from "axios";
-import {UsersFilterType} from "../redux/reducers/users-reducer";
+import {UsersFilterType} from "../redux/reducers/users/types";
 
 export const instance = axios.create({
     withCredentials: true,
@@ -11,12 +11,12 @@ export const instance = axios.create({
 
 // fetching from https://social-network.samuraijs.com/api/1.0/
 export const usersAPI = {
-    getUserAvatar: function (id: number) {
-        return instance.get('/profile/' + id)
-            .then(response => {
-                return response.data.photos
-            })
-    },
+    // getUserAvatar: function (id: number) {
+    //     return instance.get('/profile/' + id)
+    //         .then(response => {
+    //             return response.data.photos
+    //         })
+    // },
     getUsers: function (pageSize: number,
                         pageNumber: number,
                         filter: UsersFilterType
@@ -49,10 +49,10 @@ export const usersAPI = {
     logOut: function () {
         return instance.delete('/auth/login')
     },
-    getProfile: function (userId: string) {
-        console.warn('Obsolete method. Use profileAPI.getProfile')
-        return profileAPI.getProfile(userId)
-    },
+    // getProfile: function (userId: string) {
+    //     console.warn('Obsolete method. Use profileAPI.getProfile')
+    //     return profileAPI.getProfile(userId)
+    // },
 }
 
 export const profileAPI = {

@@ -2,14 +2,14 @@ import React from "react";
 import {connect} from "react-redux";
 import {
     followUserTC,
-    setPageNumberAC,
-    setUsersTC, unfollowUserTC, UsersFilterType, UsersInitialStateType,
-    UserType
-} from "../../redux/reducers/users-reducer";
+    setUsersTC, unfollowUserTC,
+} from "../../redux/reducers/users/users-reducer";
 import {UsersClass} from "./UsersClass";
 import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
 import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {setPageNumberAC} from "../../redux/reducers/users/actions";
+import {UsersFilterType, UsersInitialStateType} from "../../redux/reducers/users/types";
 
 
 export type MapStatePropsType = {

@@ -1,37 +1,37 @@
-import { AppThunk} from "../redux-store";
+import {AppThunk} from "../redux-store";
 import {profileAPI, usersAPI} from "../../Api/api";
 import {AnyAction} from "redux";
 import {setInitializeAppAC} from "./app/actions";
-import {setUserProfileTC} from "./profile-reducer";
+import {setLoggedInUserTC} from "./profile/profile-reducer";
 
 enum ACTION_TYPES {
     SET_AUTHORISED_USER = 'SET_AUTHORISED_USER',
     SET_AVATAR = 'SET_AVATAR',
 }
 
-export type AuthDataType = Omit<InitialStateType, 'isLogin'>
+export type AuthDataType = Omit<authInitialStateType, 'isLogin'>
 type SetAuthorisedUserActionType = ReturnType<typeof setAuthorisedUserAC>
-// type SetAuthorisedUserAvatarActionType = ReturnType<typeof setAuthorisedUserAvatarAC>
-export type ActionsType = SetAuthorisedUserActionType
-    // | SetAuthorisedUserAvatarActionType
-export type InitialStateType = {
+type SetAuthorisedUserAvatarActionType = ReturnType<typeof setAuthorisedUserAvatarAC>
+export type authActionsType = SetAuthorisedUserActionType
+    | SetAuthorisedUserAvatarActionType
+export type authInitialStateType = {
     id: number | null
     email: string
     login: string
     isLogin: boolean
-    // avatar: string
+    avatar?: string
 }
-export const initialState: InitialStateType = {
-    isLogin:false
-} as InitialStateType
+export const initialState: authInitialStateType = {
+    isLogin: false
+} as authInitialStateType
 
-export const authReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
+export const authReducer = (state: authInitialStateType = initialState, action: authActionsType): authInitialStateType => {
     switch (action.type) {
         case ACTION_TYPES.SET_AUTHORISED_USER:
 
             return {...state, ...action.payload};
-        // case ACTION_TYPES.SET_AVATAR:
-        //     return {...state, avatar: action.payload.avatar};
+        case ACTION_TYPES.SET_AVATAR:
+            return {...state, avatar: action.payload.avatar};
         default:
             return state;
     }
@@ -48,16 +48,14 @@ export const setAuthorisedUserAC = (data: AuthDataType, isLogin: boolean) => {
     } as const
 }
 
-// export const setAuthorisedUserAvatarAC = (avatar: string) => {
-//     return {
-//         type: ACTION_TYPES.SET_AVATAR,
-//         payload: {
-//             avatar
-//         },
-//     } as const
-// }
-
-
+export const setAuthorisedUserAvatarAC = (avatar: string) => {
+    return {
+        type: ACTION_TYPES.SET_AVATAR,
+        payload: {
+            avatar
+        },
+    } as const
+}
 
 export const setAuthorisedUserTC = (): AppThunk<AnyAction> => {
     return (dispatch) => {
@@ -66,38 +64,24 @@ export const setAuthorisedUserTC = (): AppThunk<AnyAction> => {
                 const data = response.data
                 if (data.resultCode === 0) {
                     dispatch(setAuthorisedUserAC(data.data, true))
-                    return data.data.id
+                    dispatch(setLoggedInUserTC(data.data.id))
                 }
             })
-            .then(id => {
-                dispatch(setUserProfileTC(id))
-                // dispatch(setAuthorisedUsedAvatarTC(id))
-            })
             .catch(err => {
             })
-            .finally(()=> {
-                dispatch(setInitializeAppAC(true))
-            }
-    )
+            .finally(() => {
+                    dispatch(setInitializeAppAC(true))
+                }
+            )
     }
 }
-export const setAuthorisedUsedAvatarTC = (id: number): AppThunk<AnyAction> => {
-    return (dispatch) => {
-        usersAPI.getUserAvatar(id)
-            .then(ava => {
-                // dispatch(setAuthorisedUserAvatarAC(ava.small))
-            })
-            .catch(err => {
-            })
-            .finally()
-    }
-}
+
 export const logOutTC = (): AppThunk<AnyAction> => {
     return (dispatch) => {
         usersAPI.logOut()
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(setAuthorisedUserAC({id: null,  login: '', email: ''},
+                    dispatch(setAuthorisedUserAC({id: null, login: '', email: ''},
                         false))
                 }
             })
@@ -108,11 +92,13 @@ export const logOutTC = (): AppThunk<AnyAction> => {
 }
 export const logInTC = (email: string, password: string, rememberMe: boolean,): AppThunk<AnyAction> => {
     return (dispatch) => {
-        usersAPI.logIn(email,password,rememberMe)
+        usersAPI.logIn(email, password, rememberMe)
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(setAuthorisedUserAC({id: response.data.id,
-                            login: '', email},
+                    dispatch(setAuthorisedUserAC({
+                            id: response.data.id,
+                            login: '', email
+                        },
                         true))
                 }
             })
@@ -122,15 +108,3 @@ export const logInTC = (email: string, password: string, rememberMe: boolean,): 
     }
 }
 
-
-export const initial = (): AppThunk<AnyAction> => {
-    return async (dispatch) => {
-         const {data} = await profileAPI.getUserToken()
-        console.log('thunk')
-
-
-                if (data.resultCode === 0) {
-                    dispatch(setAuthorisedUserAC(data.data, true))
-
-    }}
-}

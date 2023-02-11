@@ -1,7 +1,8 @@
 import React from 'react';
 import {Form, Formik, FormikHelpers, Field} from 'formik';
 import {useAppDispatch} from "../../redux/hooks";
-import {setFilterAC, setUsersTC, UsersFilterType} from "../../redux/reducers/users-reducer";
+import { setUsersTC} from "../../redux/reducers/users/users-reducer";
+import {setFilterAC} from "../../redux/reducers/users/actions";
 
 type Values = {
     findUser: string

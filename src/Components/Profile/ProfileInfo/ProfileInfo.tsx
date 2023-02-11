@@ -1,6 +1,6 @@
 import React from 'react';
 import s from './ProfileInfo.module.css'
-import {ProfileType} from "../../../redux/reducers/profile-reducer";
+import {ProfileType} from "../../../redux/reducers/profile/types";
 import defaultAva from './../../../images/ava.png'
 import {ProfileStatusContainer} from "./ProfileStatus";
 

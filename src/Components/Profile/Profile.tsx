@@ -2,7 +2,7 @@ import React from 'react';
 import {MyPostsContainer} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import s from "./Profile.module.css";
-import { ProfileType} from "../../redux/reducers/profile-reducer";
+import { ProfileType} from "../../redux/reducers/profile/types";
 import {Preloader} from "../Common/Preloader/Preloader";
 import {useAppSelector} from "../../redux/hooks";
 
