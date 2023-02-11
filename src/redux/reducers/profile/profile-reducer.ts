@@ -6,6 +6,7 @@ import {
     setAuthorisedUserAvatarAC,
 } from "../auth-reduser";
 import {PROFILE_ACTIONS_TYPE, ProfileActionsType, ProfileInitialStateType, ProfileType} from "./types";
+import {AnyAction} from "redux";
 
 
 
@@ -84,20 +85,19 @@ export const profileReducer = (state: ProfileInitialStateType = profileInitialSt
 }
 //
 
-type ThunkType = AppThunk<ProfileActionsType| authActionsType>
+type ThunkType = AppThunk<AnyAction>
 
 export const setLoggedInUserTC = (userId: string): ThunkType => {
     return (dispatch) => {
-        // dispatch(actions.setLoadingStatusAC(true))
+        dispatch(actions.setLoadingStatusAC(true))
         profileAPI.getProfile(userId)
             .then(response => {
                 dispatch(actions.setLoggedInUserAC(response.data))
-                dispatch(setAuthorisedUserAvatarAC(response.data.photos.large))
             })
             .catch(err => {
             })
             .finally(() => {
-                // dispatch(actions.setLoadingStatusAC(false))
+                dispatch(actions.setLoadingStatusAC(false))
             })
     }
 }
@@ -128,7 +128,6 @@ export const setUserStatusTC = (status: string): ThunkType => {
     return (dispatch) => {
         profileAPI.setStatus(status)
             .then(response => {
-
                 if (response.data.resultCode === 0) {
                     dispatch(actions.setStatusAC(status))
                 }

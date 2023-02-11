@@ -11,12 +11,6 @@ export const instance = axios.create({
 
 // fetching from https://social-network.samuraijs.com/api/1.0/
 export const usersAPI = {
-    // getUserAvatar: function (id: number) {
-    //     return instance.get('/profile/' + id)
-    //         .then(response => {
-    //             return response.data.photos
-    //         })
-    // },
     getUsers: function (pageSize: number,
                         pageNumber: number,
                         filter: UsersFilterType
@@ -68,6 +62,12 @@ export const profileAPI = {
     },
     setStatus: function (status: string) {
         return instance.put('/profile/status/', {status: status})
+    },
+    getUserAvatar: function (id: string) {
+        return instance.get('/profile/' + id)
+            .then(response => {
+                return response.data.photos
+            })
     },
 }
 

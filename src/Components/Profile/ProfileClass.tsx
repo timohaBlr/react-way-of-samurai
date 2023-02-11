@@ -18,14 +18,12 @@ type ProfileStateType = {
 export class ProfileClass extends React.Component<ProfilePropsType, ProfileStateType> {
 
     componentDidMount() {
-        console.log('did mount')
         if (this.props.userId) {
             this.props.setDisplayedProfileTC(this.props.userId)
         }
     }
 
     componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
-        console.log('did update')
     }
 
     shouldComponentUpdate(nextProps: Readonly<ProfilePropsType>, nextState: Readonly<ProfileStateType>, nextContext: any): boolean {

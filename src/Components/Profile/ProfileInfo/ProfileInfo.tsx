@@ -23,8 +23,7 @@ export const ProfileInfo = React.memo((props: ProfileInfoPropsType) => {
                     href={props.user.contacts.website || defaultValue}>{props.user.contacts.website || defaultValue}</a></div>
             </span>
             <div className={s.status}>
-                <ProfileStatusContainer
-                />
+                <ProfileStatusContainer userId={props.user.userId}/>
             </div>
         </div>
     );

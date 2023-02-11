@@ -6,7 +6,7 @@ import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {logOutTC} from "../../redux/reducers/auth-reduser";
 
 export const Header = () => {
-    const loggedUser = useAppSelector(state => state.authentication)
+    const {isLogin, avatar, login} = useAppSelector(state => state.authentication)
     const dispatch = useAppDispatch()
     const logOutHandler = () => {
         dispatch(logOutTC())
@@ -17,14 +17,16 @@ export const Header = () => {
                 <Logo/>
             </div>
             <div className={s.loggedUser}>
-                <Avatar size={'60px'} isCircle={true} source={loggedUser.avatar
-                    ? loggedUser.avatar
-                    : ava}/>
+                <Avatar size={'60px'}
+                        isCircle={true}
+                        source={avatar
+                            ? avatar
+                            : ava}/>
                 <div className={s.login}>
-                    {loggedUser.isLogin
+                    {isLogin
                         ? <div>
-                            <p>{loggedUser.login}</p>
-                            <p onClick={logOutHandler}>Log Out</p>
+                            <p>{login}</p>
+                            <button onClick={logOutHandler}>Log Out</button>
                         </div>
                         : <p>Login</p>}
                 </div>

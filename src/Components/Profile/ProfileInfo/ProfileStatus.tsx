@@ -6,6 +6,8 @@ import {AppDispatchType, AppRootStateType} from "../../../redux/redux-store";
 import {connect} from "react-redux";
 
 type ProfileStatusPropsType = {
+    id: number | null
+    userId: string
     status: string
     setStatus: (status: string) => void
 }
@@ -20,7 +22,10 @@ class ProfileStatus extends React.Component<ProfileStatusPropsType, ProfileStatu
         status: this.props.status
     }
     activateEditMode = () => {
-        this.setState({editMode: true})
+        // to prevent edition of alien profile
+        if (+this.props.userId===+this.props.id!) {
+            this.setState({editMode: true})
+        }
     }
     deactivateEditMode = () => {
         this.props.setStatus(this.state.status)
@@ -57,6 +62,7 @@ class ProfileStatus extends React.Component<ProfileStatusPropsType, ProfileStatu
 }
 
 export type MapStatePropsType = {
+    id: number | null
     status: string
 }
 export type MapDispatchToPropsType = {
@@ -65,6 +71,7 @@ export type MapDispatchToPropsType = {
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
+        id: state.authentication.id,
         status: state.profilePage.status,
     }
 }

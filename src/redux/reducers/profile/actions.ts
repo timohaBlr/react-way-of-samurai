@@ -13,7 +13,7 @@ export const updateNewPostTextAC = (value: string) => {
         }
     } as const
 }
-export const setLoggedInUserAC = (loggedInUser: ProfileType) => {
+export const setLoggedInUserAC = (loggedInUser: ProfileType | null) => {
     return {
         type: PROFILE_ACTIONS_TYPE.SET_LOGGED_USER,
         payload: {

@@ -3,6 +3,7 @@ import {profileAPI, usersAPI} from "../../Api/api";
 import {AnyAction} from "redux";
 import {setInitializeAppAC} from "./app/actions";
 import {setLoggedInUserTC} from "./profile/profile-reducer";
+import * as actions from "./profile/actions";
 
 enum ACTION_TYPES {
     SET_AUTHORISED_USER = 'SET_AUTHORISED_USER',
@@ -65,6 +66,7 @@ export const setAuthorisedUserTC = (): AppThunk<AnyAction> => {
                 if (data.resultCode === 0) {
                     dispatch(setAuthorisedUserAC(data.data, true))
                     dispatch(setLoggedInUserTC(data.data.id))
+                    dispatch(setAuthorisedUserAvatarTC(data.data.id))
                 }
             })
             .catch(err => {
@@ -75,14 +77,29 @@ export const setAuthorisedUserTC = (): AppThunk<AnyAction> => {
             )
     }
 }
+export const setAuthorisedUserAvatarTC = (id: string): AppThunk<AnyAction> => {
+    return (dispatch) => {
+        profileAPI.getUserAvatar(id)
+            .then(response => {
+                dispatch(setAuthorisedUserAvatarAC(response.small))
+            })
+            .catch(err => {
+            })
+            .finally(() => {
+                }
+            )
+    }
+}
+
 
 export const logOutTC = (): AppThunk<AnyAction> => {
     return (dispatch) => {
         usersAPI.logOut()
             .then(response => {
                 if (response.data.resultCode === 0) {
-                    dispatch(setAuthorisedUserAC({id: null, login: '', email: ''},
-                        false))
+                    dispatch(setAuthorisedUserAC({id: null, login: '', email: ''}, false))
+                    dispatch(setAuthorisedUserAvatarAC(''))
+                    dispatch(actions.setLoggedInUserAC(null))
                 }
             })
             .catch(err => {
@@ -100,6 +117,7 @@ export const logInTC = (email: string, password: string, rememberMe: boolean,): 
                             login: '', email
                         },
                         true))
+                    dispatch(setAuthorisedUserTC())
                 }
             })
             .catch(err => {
