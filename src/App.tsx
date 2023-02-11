@@ -10,18 +10,21 @@ import {DialogsContainer} from "./Components/Dialogs/DialogsContainer";
 import {ProfileContainer} from "./Components/Profile/ProfileContainer";
 import {UsersContainer} from "./Components/Users/UsersContainer";
 import {Login} from "./Components/Login/Login";
-import {setAuthorisedUserTC} from "./redux/reducers/auth-reduser";
-import {useAppDispatch} from "./redux/hooks";
-
+import {initial, setAuthorisedUserTC} from "./redux/reducers/auth-reduser";
+import {useAppDispatch, useAppSelector} from "./redux/hooks";
+import {Preloader} from "./Components/Common/Preloader/Preloader";
+import {selectAppReady} from "./redux/reducers/app/selectors";
 
 
 function App() {
     const dispatch = useAppDispatch()
-    useEffect(()=> {
+    const appReady = useAppSelector(selectAppReady)
+    useEffect(() => {
         dispatch(setAuthorisedUserTC())
-    })
-    return (
-        <div className="App">
+    }, [dispatch])
+    if (!appReady) {
+        return <Preloader/>
+    } else return (<div className="App">
             <div className={'header'}><Header/></div>
             <div className={'navbar'}><Navbar/></div>
             <div className={'content'}>

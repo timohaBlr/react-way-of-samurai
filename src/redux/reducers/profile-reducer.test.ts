@@ -1,38 +1,8 @@
-import {profileReducer, setProfileAC} from "./profile-reducer";
+import {initialState, profileReducer, setProfileAC} from "./profile-reducer";
 import {setLoadingStatusAC} from "./profile-reducer";
 
 
-const profileInitialState = {
-    user: {
-        aboutMe: 'Programmer',
-        contacts: {
-            facebook: null,
-            website: 'websiteUrl',
-            vk:  null,
-            twitter:  null,
-            instagram:  null,
-            youtube:  null,
-            github:  null,
-            mainLink:  null,
-        },
-        lookingForAJob: true,
-        lookingForAJobDescription: 'React',
-        fullName: 'Timofei',
-        userId: '1',
-        photos: {
-            small: null,
-            large:  null,
-        },
-    },
-    status: 'student',
-    loadingStatus: false,
-    posts: [
-        {id: 1, message: 'Hello', likesCount: 4},
-        {id: 2, message: 'Bonjour', likesCount: 5},
-        {id: 3, message: 'Privet', likesCount: 6},
-    ],
-    newPostText: '',
-};
+const profileInitialState = initialState
 const response = {
     "aboutMe": null,
     "contacts": {
@@ -68,6 +38,6 @@ test('profile info should be changed', ()=> {
     const newProfileState = profileReducer(profileInitialState, setProfileAC(response))
 
     expect(profileInitialState).not.toBe(newProfileState)
-    expect(newProfileState.user!.userId).toBe(31)
-    expect(newProfileState.user!.aboutMe).not.toBe('Programmer')
+    expect(newProfileState.displayedProfile!.userId).toBe(31)
+    expect(newProfileState.displayedProfile!.aboutMe).not.toBe('Programmer')
 })

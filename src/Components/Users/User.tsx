@@ -3,6 +3,8 @@ import {UserType} from "../../redux/reducers/users-reducer";
 import s from './User.module.css'
 import {SuperButton} from "../Common/Button/SuperButton";
 import {NavLink} from "react-router-dom";
+import {useAppDispatch} from "../../redux/hooks";
+import {setProfileAC, setUserProfileTC} from "../../redux/reducers/profile-reducer";
 
 type UserPropsType = {
     user: UserType
@@ -10,16 +12,20 @@ type UserPropsType = {
     changingFollowing: string[]
 }
 export const User: React.FC<UserPropsType> = React.memo(({user,changingFollowing, toggleFollowingCallBack, ...restProps}) => {
+    const dispatch = useAppDispatch()
     const ava = 'https://fliist.com/uploads/user/avatar/350/avatar_1x_350_1583313611_avatar.png'
 
    const buttonFollowOnClickHandler = ()=> {
        toggleFollowingCallBack(user.id)
     }
     const disabled = changingFollowing.some(id=> id ===user.id)
+    const avaClickHandler = () => {
+      dispatch(setUserProfileTC(user.id))
+    }
     return (
         <div className={s.userWrapper}>
             <div className={s.avaAndButton}>
-                <div className={s.ava}>
+                <div className={s.ava} onClick={avaClickHandler}>
                     <NavLink to={`/profile/${user.id} `}>
                         <img src={user.photos.small ? user.photos.small : ava} alt={'userAvatar'}/>
                     </NavLink>

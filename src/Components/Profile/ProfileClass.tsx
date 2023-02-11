@@ -1,55 +1,49 @@
 import React from 'react';
 import {Profile} from "./Profile";
-import {PostsType, UserType} from "../../redux/reducers/profile-reducer";
-import {Navigate} from "react-router-dom";
+import { ProfileType} from "../../redux/reducers/profile-reducer";
 
 
 type ProfilePropsType = {
-    user: UserType | null
-    posts: Array<PostsType>
-    newPostText: string
-    addMessage: () => void
-    updateTextArea: (value: string) => void
-    loadingStatus: boolean
+    loggedInUser: ProfileType | null
+    displayedProfile: ProfileType | null
     setProfile: (userId: string) => void
-    setStatus: (status: string) => void
-    getStatus: (userId: string) => void
     userId?: string
-    status: string
 }
 type ProfileStateType = {
-
+    userId: string | null
+    user: ProfileType | null
 }
 
-export class ProfileClass extends React.Component<ProfilePropsType, any> {
-
-    componentDidMount() {
-        let userId = this.props.userId
-        if (userId) {
-            this.props.setProfile(userId)
-            this.props.getStatus(userId)
+export class ProfileClass extends React.Component<ProfilePropsType, ProfileStateType> {
+    constructor(props: ProfilePropsType) {
+        super(props);
+        this.state = {
+            userId: null,
+            user: null
         }
     }
-    // componentDidUpdate(prevProps: Readonly<ProfilePropsType>,
-    //                    prevState: Readonly<ProfileStateType>,
-    //                    snapshot?: any) {
-    //     if (prevProps.user !== this.props.user) {
-    //         return <Navigate to={'/profile/'+this.props.user?.userId}/>
-    //     }
-    // }
 
+    componentDidMount() {
+        console.log('component did mount')
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfilePropsType>, prevState: Readonly<ProfileStateType>, snapshot?: any) {
+        console.log('component did update')
+        // if (this.state === prevState) {
+        //     this.setState((state, props)=> {
+        //         return {
+        //             user: props.loggedInUser
+        //         }
+        //     })
+        // }
+    }
 
     render() {
-        if (!this.props.user) return <div>This profile does not exist. Create new profile?</div>
-        return <Profile user={this.props.user}
-                        posts={this.props.posts}
-                        newPostText={this.props.newPostText}
-                        addMessage={this.props.addMessage}
-                        updateTextArea={this.props.updateTextArea}
-                        loadingStatus={this.props.loadingStatus}
-                        status={this.props.status}
-                        setStatus={this.props.setStatus}
-                        // getStatus={this.props.getStatus}
+        // console.log('profile render props', this.props.loggedInUser?.fullName)
+        // console.log('profile render state', this.state.user?.fullName)
+        if (!this.state.user) return <div>This profile does not exist. Create new profile?</div>
+
+        return <Profile user={this.state.user}
         />
     }
 }

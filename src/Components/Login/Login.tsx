@@ -2,8 +2,9 @@ import * as React from 'react';
 import {Formik, Field, Form, FormikHelpers} from 'formik';
 import s from './Login.module.css'
 import * as Yup from 'yup';
-import {useAppDispatch} from "../../redux/hooks";
+import {useAppDispatch, useAppSelector} from "../../redux/hooks";
 import {logInTC} from "../../redux/reducers/auth-reduser";
+import { Navigate } from 'react-router-dom';
 
 type Values = {
     email: string
@@ -22,7 +23,12 @@ const LoginSchema = Yup.object().shape({
 });
 
 export const Login = () => {
+    console.log('login')
     const dispatch = useAppDispatch()
+    const isLoggin = useAppSelector((state)=>state.authentication.isLogin)
+    if(isLoggin){
+        return  <Navigate to={'/profile'}/>
+    }
     return (
         <div className={s.login}>
             <Formik

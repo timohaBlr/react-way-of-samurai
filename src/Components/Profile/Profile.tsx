@@ -1,24 +1,18 @@
 import React from 'react';
-import {MyPosts} from "./MyPosts/MyPosts";
+import {MyPostsContainer} from "./MyPosts/MyPosts";
 import {ProfileInfo} from "./ProfileInfo/ProfileInfo";
 import s from "./Profile.module.css";
-import {PostsType, UserType} from "../../redux/reducers/profile-reducer";
+import { ProfileType} from "../../redux/reducers/profile-reducer";
 import {Preloader} from "../Common/Preloader/Preloader";
+import {useAppSelector} from "../../redux/hooks";
 
 
 type ProfilePropsType = {
-    user: UserType
-    posts: Array<PostsType>
-    newPostText: string
-    addMessage: () => void
-    updateTextArea: (value: string) => void
-    loadingStatus: boolean
-    status: string
-    setStatus: (status: string) => void
-    // getStatus: (userId: string) => void
+    user: ProfileType
 }
 
 export const Profile = (props: ProfilePropsType) => {
+    const loadingStatus = useAppSelector(state => state.profilePage.loadingStatus)
 
     return (
         <div>
@@ -27,19 +21,13 @@ export const Profile = (props: ProfilePropsType) => {
                      alt={'bla'}/>
             </div>
             <div className={s.user}>
-                {props.loadingStatus
+                {loadingStatus
                     ? <Preloader/>
-                    : <ProfileInfo status={props.status} user={props.user}
-                                   setStatus={props.setStatus}
-                                   // getStatus={props.getStatus}
+                    : <ProfileInfo user={props.user}
                     />}
             </div>
             <div>
-                <MyPosts posts={props.posts}
-                         textArea={props.newPostText}
-                         addPost={props.addMessage}
-                         updateTexArea={props.updateTextArea}
-                         value={props.newPostText}/>
+                <MyPostsContainer/>
             </div>
         </div>
     );

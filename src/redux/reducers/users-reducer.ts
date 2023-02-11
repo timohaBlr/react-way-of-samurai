@@ -1,5 +1,5 @@
 import {AppThunk} from "../redux-store";
-import {userAPI, instance} from "../../Api/api";
+import {usersAPI, instance} from "../../Api/api";
 
 export type UsersInitialStateType = {
     users: UserType[]
@@ -158,7 +158,7 @@ type ThunkType = AppThunk<ActionsType>
 export const setUsersTC = (pageSize: number, pageNumber: number, filter: UsersFilterType): ThunkType => {
     return (dispatch) => {
         dispatch(setLoadingStatusAC(true))
-        userAPI.getUsers(pageSize, pageNumber, filter)
+        usersAPI.getUsers(pageSize, pageNumber, filter)
             .then(data => {
                 dispatch(setUsersAC(data.items))
                 dispatch(setTotalUserCountAC(data.totalCount))

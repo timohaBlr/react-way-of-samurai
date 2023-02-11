@@ -1,5 +1,4 @@
 import axios from "axios";
-import {Simulate} from "react-dom/test-utils";
 import {UsersFilterType} from "../redux/reducers/users-reducer";
 
 export const instance = axios.create({
@@ -11,16 +10,16 @@ export const instance = axios.create({
 });
 
 // fetching from https://social-network.samuraijs.com/api/1.0/
-export const userAPI = {
-    getUserAvatar: async function (id: number) {
-        return await instance.get('/profile/' + id)
+export const usersAPI = {
+    getUserAvatar: function (id: number) {
+        return instance.get('/profile/' + id)
             .then(response => {
                 return response.data.photos
             })
     },
-    getUsers: async function (pageSize: number,
-                              pageNumber: number,
-                              filter: UsersFilterType
+    getUsers: function (pageSize: number,
+                        pageNumber: number,
+                        filter: UsersFilterType
     ) {
         const pNumber = pageNumber ? `page=${pageNumber}` : ''
         const pSize = pageSize ? `&count=${pageSize}` : ''
@@ -43,14 +42,14 @@ export const userAPI = {
      * captcha: (boolean)
      * text from captcha-image that should be added if there is resultCode is 10 in response data.
      */
-    logIn: async function (email: string, password: string, rememberMe: boolean,captcha: string | null = null) {
+    logIn: function (email: string, password: string, rememberMe: boolean, captcha: string | null = null) {
         const payload = {email, password, rememberMe, captcha}
-        return await instance.post('/auth/login', payload)
+        return instance.post('/auth/login', payload)
     },
-    logOut: async function () {
-        return await instance.delete('/auth/login')
+    logOut: function () {
+        return instance.delete('/auth/login')
     },
-    getProfile: async function (userId: string) {
+    getProfile: function (userId: string) {
         console.warn('Obsolete method. Use profileAPI.getProfile')
         return profileAPI.getProfile(userId)
     },
@@ -58,17 +57,17 @@ export const userAPI = {
 
 export const profileAPI = {
     // return object with user id, e-mail and login
-    getUserToken: async function () {
-        return await instance.get('/auth/me')
+    getUserToken: function () {
+        return instance.get('/auth/me')
     },
-    getProfile: async function (userId: string) {
+    getProfile: function (userId: string) {
         return instance.get(`/profile/${userId}`)
     },
-    getStatus: async function (userId: string) {
-        return await instance.get('/profile/status/' + userId)
+    getStatus: function (userId: string) {
+        return instance.get('/profile/status/' + userId)
     },
-    setStatus: async function (status: string) {
-        return await instance.put('/profile/status/', {status: status})
+    setStatus: function (status: string) {
+        return instance.put('/profile/status/', {status: status})
     },
 }
 

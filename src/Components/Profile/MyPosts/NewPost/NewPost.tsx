@@ -6,7 +6,6 @@ type NewPostPropsType = {
     updateTexArea: (value: string) => void
     addPost: () => void
     textArea: string
-    value: string
 }
 
 
@@ -22,7 +21,7 @@ export const NewPost = React.memo((props: NewPostPropsType) => {
             <AddItemForm onClick={buttonOnClickHandler}
                          onChange={onChangeHandler}
                          title={'Send'}
-                         value={props.value}
+                         value={props.textArea}
             />
         </div>
     );

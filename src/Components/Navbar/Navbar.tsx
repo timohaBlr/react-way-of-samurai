@@ -8,7 +8,8 @@ export const Navbar = () => {
     const dispatch = useAppDispatch()
     const id = useAppSelector(state => state.authentication.id)
     const profileClickHandler = () => {
-        dispatch(setUserProfileTC(id + ''))
+
+        // dispatch(setUserProfileTC(id + ''))
     }
     return (
         <div>

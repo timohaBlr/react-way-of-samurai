@@ -19,7 +19,8 @@ type SetLoadingStatusActionType = ReturnType<typeof setLoadingStatusAC>
 type SetStatusAT = ReturnType<typeof setStatusAC>
 
 export type ProfileInitialStateType = {
-    user: UserType | null
+    loggedInUser: ProfileType | null
+    displayedProfile: ProfileType | null
     status: string
     posts: Array<PostsType>
     newPostText: string
@@ -35,7 +36,7 @@ export type ContactsType = {
     github: string | null
     mainLink: string | null
 }
-export type UserType = {
+export type ProfileType = {
     aboutMe: string | null
     contacts: ContactsType
     lookingForAJob: boolean
@@ -53,7 +54,7 @@ export type PostsType = {
     likesCount: number
 }
 
-const defaultUser: UserType = {
+const defaultUser: ProfileType = {
     aboutMe: 'Programmer',
     contacts: {
         facebook: null,
@@ -74,8 +75,10 @@ const defaultUser: UserType = {
         large: null,
     },
 };
+
 export const initialState = {
-    user: null,
+    loggedInUser:  null,
+    displayedProfile:  null,
     status: '',
     loadingStatus: false,
     posts: [
@@ -103,7 +106,7 @@ export const profileReducer = (state: ProfileInitialStateType = initialState,
         case PROFILE_ACTIONS_TYPE.SET_PROFILE:
             return {
                 ...state,
-                user: action.payload.response
+                loggedInUser: action.payload.response
             };
         case PROFILE_ACTIONS_TYPE.SET_LOADING_STATUS:
             return {
@@ -133,7 +136,7 @@ export const updateNewPostTextAC = (value: string) => {
         }
     } as const
 }
-export const setProfileAC = (response: UserType) => {
+export const setProfileAC = (response: ProfileType) => {
     return {
         type: PROFILE_ACTIONS_TYPE.SET_PROFILE,
         payload: {
