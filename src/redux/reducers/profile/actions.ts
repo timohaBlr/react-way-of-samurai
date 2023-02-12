@@ -1,15 +1,10 @@
 import {PROFILE_ACTIONS_TYPE, ProfileType} from "./types";
 
-export const addNewPostAC = () => {
+export const addPostAC = (postText: string) => {
     return {
         type: PROFILE_ACTIONS_TYPE.ADD_POST,
-    } as const
-}
-export const updateNewPostTextAC = (value: string) => {
-    return {
-        type: PROFILE_ACTIONS_TYPE.UPDATE_TEXT_AREA,
         payload: {
-            value
+            postText
         }
     } as const
 }
@@ -31,7 +26,7 @@ export const setDisplayedProfileAC = (displayedProfile: ProfileType| null) => {
 }
 export const setLoadingStatusAC = (loadingStatus: boolean) => {
     return {
-        type: PROFILE_ACTIONS_TYPE.SET_LOADING_STATUS,
+        type: PROFILE_ACTIONS_TYPE.SET_PROFILE_LOADING_STATUS,
         payload: {
             loadingStatus,
         },
@@ -45,11 +40,3 @@ export const setStatusAC = (status: string) => {
         },
     } as const
 }
-// export const setAuthorisedUserAvatarAC = (avatar: string) => {
-//     return {
-//         type: 'SET_AVATAR',
-//         payload: {
-//             avatar
-//         },
-//     } as const
-// }

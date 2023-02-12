@@ -59,10 +59,14 @@ export const Login = () => {
                                 <div>{errors.email}</div>
                             ) : null}
                             <label htmlFor="password">Password</label>
-                            <Field id="password" name="password" placeholder="Doe"/>
+                            <Field id="password" name="password" placeholder="some password"/>
                             {errors.password && touched.password ? (
                                 <div>{errors.password}</div>
                             ) : null}
+                            <label>
+                                <Field type="checkbox" name="rememberMe" />
+                                Remember me
+                            </label>
                             <button type="submit">Submit</button>
                         </Form>
                     }

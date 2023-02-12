@@ -4,11 +4,10 @@ import * as actions from "./actions";
 export type ProfileActionsType = ReturnType<InferValueTypes<typeof actions>>
 
 export enum PROFILE_ACTIONS_TYPE {
-    UPDATE_TEXT_AREA = 'UPDATE_TEXT_AREA',
     ADD_POST = 'ADD_POST',
     SET_LOGGED_USER = 'SET_LOGGED_USER',
     SET_DISPLAYED_PROFILE = 'SET_DISPLAYED_PROFILE',
-    SET_LOADING_STATUS = 'SET_LOADING_STATUS',
+    SET_PROFILE_LOADING_STATUS = 'SET_PROFILE_LOADING_STATUS',
     SET_STATUS = 'SET_STATUS',
 }
 
@@ -17,7 +16,6 @@ export type ProfileInitialStateType = {
     displayedProfile: ProfileType | null
     status: string
     posts: Array<PostsType>
-    newPostText: string
     loadingStatus: boolean
 }
 export type ContactsType = {

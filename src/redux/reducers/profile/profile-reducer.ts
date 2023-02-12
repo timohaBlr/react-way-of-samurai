@@ -6,8 +6,6 @@ import {
     setAuthorisedUserAvatarAC,
 } from "../auth-reduser";
 import {PROFILE_ACTIONS_TYPE, ProfileActionsType, ProfileInitialStateType, ProfileType} from "./types";
-import {AnyAction} from "redux";
-
 
 
 const defaultUser: ProfileType = {
@@ -42,22 +40,18 @@ export const profileInitialState = {
         {id: 2, message: 'Bonjour', likesCount: 5},
         // {id: 3, message: 'Privet', likesCount: 6},
     ],
-    newPostText: '',
 };
 export const profileReducer = (state: ProfileInitialStateType = profileInitialState,
                                action: ProfileActionsType): ProfileInitialStateType => {
     switch (action.type) {
-        case PROFILE_ACTIONS_TYPE.UPDATE_TEXT_AREA:
-            return {...state, newPostText: action.payload.value};
         case PROFILE_ACTIONS_TYPE.ADD_POST:
             return {
                 ...state,
                 posts: [...state.posts, {
-                    id: state.posts.length + 1,
-                    message: state.newPostText,
+                    id: state.posts.length,
+                    message: action.payload.postText,
                     likesCount: 5,
                 }],
-                newPostText: ''
             };
         case PROFILE_ACTIONS_TYPE.SET_LOGGED_USER:
             return {
@@ -69,7 +63,7 @@ export const profileReducer = (state: ProfileInitialStateType = profileInitialSt
                 ...state,
                 displayedProfile: action.payload.displayedProfile
             };
-        case PROFILE_ACTIONS_TYPE.SET_LOADING_STATUS:
+        case PROFILE_ACTIONS_TYPE.SET_PROFILE_LOADING_STATUS:
             return {
                 ...state,
                 loadingStatus: action.payload.loadingStatus
@@ -85,28 +79,19 @@ export const profileReducer = (state: ProfileInitialStateType = profileInitialSt
 }
 //
 
-type ThunkType = AppThunk<AnyAction>
+type ThunkType = AppThunk<ProfileActionsType|authActionsType>
 
 export const setLoggedInUserTC = (userId: string): ThunkType => {
-    return (dispatch) => {
+    return (dispatch, getState) => {
         dispatch(actions.setLoadingStatusAC(true))
         profileAPI.getProfile(userId)
             .then(response => {
                 dispatch(actions.setLoggedInUserAC(response.data))
-            })
-            .catch(err => {
-            })
-            .finally(() => {
-                dispatch(actions.setLoadingStatusAC(false))
-            })
-    }
-}
-export const setDisplayedProfileTC = (userId: string): ThunkType  => {
-    return (dispatch) => {
-        dispatch(actions.setLoadingStatusAC(true))
-        profileAPI.getProfile(userId)
-            .then(response => {
-                dispatch(actions.setDisplayedProfileAC(response.data))
+                const authData = getState().authentication
+                if (authData.id === response.data.userId
+                    && authData.avatar !== '') {
+                    dispatch(setAuthorisedUserAvatarAC(response.data.photos.small))
+                }
             })
             .catch(err => {
             })

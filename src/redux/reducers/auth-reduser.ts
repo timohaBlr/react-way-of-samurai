@@ -66,7 +66,7 @@ export const setAuthorisedUserTC = (): AppThunk<AnyAction> => {
                 if (data.resultCode === 0) {
                     dispatch(setAuthorisedUserAC(data.data, true))
                     dispatch(setLoggedInUserTC(data.data.id))
-                    dispatch(setAuthorisedUserAvatarTC(data.data.id))
+                    // dispatch(setAuthorisedUserAvatarTC(data.data.id))
                 }
             })
             .catch(err => {

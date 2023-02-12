@@ -1,13 +1,14 @@
 import React from 'react';
 import {Profile} from "./Profile";
 import {ProfileType} from "../../redux/reducers/profile/types";
+import {Preloader} from "../Common/Preloader/Preloader";
 
 
 type ProfilePropsType = {
-    // loadingStatus: boolean
+    loadingStatus: boolean
     loggedInUser: ProfileType | null
-    displayedProfile: ProfileType | null
-    setDisplayedProfileTC: (userId: string) => void
+    // displayedProfile: ProfileType | null
+    setLoggedInUserTC: (userId: string) => void
     userId?: string
 }
 type ProfileStateType = {
@@ -18,8 +19,8 @@ type ProfileStateType = {
 export class ProfileClass extends React.Component<ProfilePropsType, ProfileStateType> {
 
     componentDidMount() {
-        if (this.props.userId) {
-            this.props.setDisplayedProfileTC(this.props.userId)
+        if (this.props.userId !== this.props.loggedInUser?.userId) {
+            this.props.setLoggedInUserTC(this.props.userId!)
         }
     }
 
@@ -29,7 +30,8 @@ export class ProfileClass extends React.Component<ProfilePropsType, ProfileState
     shouldComponentUpdate(nextProps: Readonly<ProfilePropsType>, nextState: Readonly<ProfileStateType>, nextContext: any): boolean {
         return this.props.userId !== nextProps.userId //обновление при загрузке по скопированной ссылке
             || this.props.loggedInUser !== nextProps.loggedInUser // обновление при первом старте приложения
-            || this.props.displayedProfile !== nextProps.displayedProfile
+            ||this.props.loadingStatus !== nextProps.loadingStatus
+        // || this.props.displayedProfile !== nextProps.displayedProfile
     }
 
     componentWillUnmount() {
@@ -37,13 +39,13 @@ export class ProfileClass extends React.Component<ProfilePropsType, ProfileState
     }
 
     render() {
-        const profileToRender = this.props.displayedProfile
-            ? this.props.displayedProfile
-            : this.props.loggedInUser
+        // const profileToRender = this.props.displayedProfile
+        //     ? this.props.displayedProfile
+        //     : this.props.loggedInUser
+        if (this.props.loadingStatus) return <Preloader/>
+        if (!this.props.loggedInUser) return <div>This profile does not exist. Create new profile?</div>
 
-        if (!profileToRender) return <div>This profile does not exist. Create new profile?</div>
-
-        return <Profile user={profileToRender}
+        return <Profile user={this.props.loggedInUser}
         />
     }
 }

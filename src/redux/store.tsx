@@ -1,6 +1,5 @@
 import {  profileReducer} from "./reducers/profile/profile-reducer";
 import {dialogsAddReducer} from "./reducers/dialogs-add-reducer";
-import {addNewPostAC} from "./reducers/profile/actions";
 
  type UserType = {
     name: string
@@ -99,7 +98,7 @@ const store: StoreType = {
         this._subscriber(this._state);
     },
 }
-store.dispatch(addNewPostAC())
+// store.dispatch(addNewPostAC())
 
 export default store;
 

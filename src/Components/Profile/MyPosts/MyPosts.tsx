@@ -4,14 +4,12 @@ import {Post} from "./Post/Post";
 import {PostsType} from "../../../redux/reducers/profile/types";
 import {connect} from "react-redux";
 import {AppDispatchType, AppRootStateType} from "../../../redux/redux-store";
-import {addNewPostAC, updateNewPostTextAC} from "../../../redux/reducers/profile/actions";
+import { addPostAC} from "../../../redux/reducers/profile/actions";
 
 
 type MyPostsPropsType = {
     posts: Array<PostsType>
-    textArea: string
-    updateTexArea: (value: string) => void
-    addPost: () => void
+    addPost: (postText: string) => void
 }
 
 const MyPosts = React.memo((props: MyPostsPropsType) => {
@@ -20,8 +18,7 @@ const MyPosts = React.memo((props: MyPostsPropsType) => {
         <div>
             <h3>My posts:</h3>
             <div>
-                <NewPost textArea={props.textArea}
-                         updateTexArea={props.updateTexArea}
+                <NewPost
                          addPost={props.addPost}
                 />
             </div>
@@ -38,26 +35,20 @@ const MyPosts = React.memo((props: MyPostsPropsType) => {
 
 export type MapStatePropsTypeType = {
     posts: Array<PostsType>
-    textArea: string
 }
 export type MapDispatchToPropsType = {
-    addPost: () => void
-    updateTexArea: (value: string) => void
+    addPost: (postText: string) => void
 }
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsTypeType => {
     return {
-        textArea: state.profilePage.newPostText,
         posts: state.profilePage.posts,
     }
 }
 const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType => {
     return {
-        addPost: () => {
-            dispatch(addNewPostAC())
-        },
-        updateTexArea: (value) => {
-            dispatch(updateNewPostTextAC(value))
+        addPost: (postText) => {
+            dispatch(addPostAC(postText))
         },
     }
 }

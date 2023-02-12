@@ -1,28 +1,38 @@
 import React from 'react';
-import {AddItemForm} from "../../../Common/AddItemForm/AddItemForm";
+import {Formik, Field, Form, FormikHelpers} from 'formik';
 
+interface Values {
+    postText: string;
+}
 
 type NewPostPropsType = {
-    updateTexArea: (value: string) => void
-    addPost: () => void
-    textArea: string
+    addPost: (value: string) => void
 }
 
 
 export const NewPost = React.memo((props: NewPostPropsType) => {
-    const buttonOnClickHandler = () => {
-        props.addPost()
-    }
-    const onChangeHandler = (value: string) => {
-        props.updateTexArea(value)
-    }
     return (
         <div>
-            <AddItemForm onClick={buttonOnClickHandler}
-                         onChange={onChangeHandler}
-                         title={'Send'}
-                         value={props.textArea}
-            />
+            <Formik
+                initialValues={{
+                    postText: '',
+                }}
+                onSubmit={(
+                    values: Values,
+                    {setSubmitting}: FormikHelpers<Values>
+                ) => {
+                    props.addPost(values.postText)
+                    values.postText=''
+                    setSubmitting(false);
+                }}
+            >
+                <Form>
+                    <label htmlFor="postText">postText</label>
+                    <Field id="postText" name="postText" placeholder="postText"/>
+
+                    <button type="submit">Submit</button>
+                </Form>
+            </Formik>
         </div>
     );
 });
