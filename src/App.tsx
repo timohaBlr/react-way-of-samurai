@@ -13,7 +13,7 @@ import {Login} from "./Components/Login/Login";
 import { setAuthorisedUserTC} from "./redux/reducers/auth-reduser";
 import {useAppDispatch, useAppSelector} from "./redux/hooks";
 import {Preloader} from "./Components/Common/Preloader/Preloader";
-import {selectAppReady} from "./redux/reducers/app/selectors";
+import {selectAppReady} from "./redux/selectors";
 
 
 function App() {

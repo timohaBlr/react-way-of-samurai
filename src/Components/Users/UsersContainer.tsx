@@ -10,15 +10,11 @@ import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
 import {setPageNumberAC} from "../../redux/reducers/users/actions";
 import {UsersFilterType, UsersInitialStateType} from "../../redux/reducers/users/types";
+import {selectUsersPage} from "../../redux/selectors";
 
 
 export type MapStatePropsType = {
     usersPage: UsersInitialStateType
-    // users: UserType[]
-    // pageSize: number
-    // pageNumber: number
-    // loadingStatus: boolean
-    // changingFollowing: string[]
 }
 export type mapDispatchToPropsType = {
     toggleFollow: (userId: string) => void
@@ -28,12 +24,7 @@ export type mapDispatchToPropsType = {
 }
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        usersPage: state.usersPage,
-        // users: state.usersPage.users,
-        // pageSize: state.usersPage.pageSize,
-        // pageNumber: state.usersPage.pageNumber,
-        // loadingStatus: state.usersPage.loadingStatus,
-        // changingFollowing: state.usersPage.changingFollowing,
+        usersPage: selectUsersPage(state),
     }
 }
 

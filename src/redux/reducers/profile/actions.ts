@@ -16,14 +16,6 @@ export const setLoggedInUserAC = (loggedInUser: ProfileType | null) => {
         },
     } as const
 }
-export const setDisplayedProfileAC = (displayedProfile: ProfileType| null) => {
-    return {
-        type: PROFILE_ACTIONS_TYPE.SET_DISPLAYED_PROFILE,
-        payload: {
-             displayedProfile,
-        },
-    } as const
-}
 export const setLoadingStatusAC = (loadingStatus: boolean) => {
     return {
         type: PROFILE_ACTIONS_TYPE.SET_PROFILE_LOADING_STATUS,
@@ -37,6 +29,14 @@ export const setStatusAC = (status: string) => {
         type: PROFILE_ACTIONS_TYPE.SET_STATUS,
         payload: {
             status,
+        },
+    } as const
+}
+export const addLikeAC = (postId: number) => {
+    return {
+        type: PROFILE_ACTIONS_TYPE.ADD_LIKE,
+        payload:{
+            postId,
         },
     } as const
 }

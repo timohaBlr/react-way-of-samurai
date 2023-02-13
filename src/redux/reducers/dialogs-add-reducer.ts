@@ -1,13 +1,10 @@
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE_NEW_MESSAGE_TEXT'
 const ADD_MESSAGE = 'ADD_MESSAGE'
 
-type ActionsType = UpdateNewMessageType | AddNewMessageType
+type ActionsType =  AddNewMessageType
 type AddNewMessageType = ReturnType<typeof addNewMessageAC>
-type UpdateNewMessageType = ReturnType<typeof updateNewMessageAC>
 export type DialogsInitialStateType = {
     dialogs: Array<DialogsType>
     messages: Array<MessagesType>
-    newMessage: string
 }
 export type DialogsType = {
     id: number
@@ -33,35 +30,28 @@ const initialState: DialogsInitialStateType = {
         {id: 3, message: 'Do you know react?'},
         {id: 4, message: 'May be Rest API?'},
     ],
-    newMessage: '',
 };
 
 export const dialogsAddReducer = (state: DialogsInitialStateType = initialState, action: ActionsType): DialogsInitialStateType => {
     switch (action.type) {
-        case UPDATE_NEW_MESSAGE_TEXT:
-            return {...state, newMessage: action.payload.value};
         case ADD_MESSAGE:
             return {
                 ...state,
                 messages: [...state.messages, {
                     id: state.messages.length + 1,
-                    message: state.newMessage,
+                    message: action.payload.message,
                 }],
-                newMessage: ''
             };
         default:
             return state;
     }
 }
 
-export const addNewMessageAC = () => {
-    return {type: ADD_MESSAGE} as const
-}
-export const updateNewMessageAC = (value: string) => {
+export const addNewMessageAC = (message: string) => {
     return {
-        type: UPDATE_NEW_MESSAGE_TEXT,
+        type: ADD_MESSAGE,
         payload: {
-            value
-        }
+            message,
+        },
     } as const
 }

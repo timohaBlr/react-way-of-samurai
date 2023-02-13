@@ -7,10 +7,10 @@ import {compose} from "redux";
 import {withRoute} from "../../hoc/withRoute";
 import {ProfileType} from "../../redux/reducers/profile/types";
 import {setLoggedInUserTC} from "../../redux/reducers/profile/profile-reducer";
+import {selectLoadingStatus, selectLoggedInUser} from "../../redux/selectors";
 
 export type MapStatePropsTypeType = {
     loadingStatus: boolean
-    // displayedProfile: ProfileType | null
     loggedInUser: ProfileType | null
 }
 export type MapDispatchToPropsType = {
@@ -19,9 +19,8 @@ export type MapDispatchToPropsType = {
 
 const mapStateToProps = (state: AppRootStateType): MapStatePropsTypeType => {
     return {
-        loadingStatus: state.profilePage.loadingStatus,
-        loggedInUser: state.profilePage.loggedInUser,
-        // displayedProfile: state.profilePage.displayedProfile,
+        loadingStatus: selectLoadingStatus(state),
+        loggedInUser: selectLoggedInUser(state),
     }
 }
 const mapDispatchToProps = (dispatch: AppDispatchType): MapDispatchToPropsType => {

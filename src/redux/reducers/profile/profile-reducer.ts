@@ -32,7 +32,6 @@ const defaultUser: ProfileType = {
 
 export const profileInitialState = {
     loggedInUser: null,
-    displayedProfile: null,
     status: '',
     loadingStatus: false,
     posts: [
@@ -48,20 +47,15 @@ export const profileReducer = (state: ProfileInitialStateType = profileInitialSt
             return {
                 ...state,
                 posts: [...state.posts, {
-                    id: state.posts.length,
+                    id: state.posts.length + 1,
                     message: action.payload.postText,
-                    likesCount: 5,
+                    likesCount: Math.ceil(Math.random() * 5),
                 }],
             };
         case PROFILE_ACTIONS_TYPE.SET_LOGGED_USER:
             return {
                 ...state,
                 loggedInUser: action.payload.loggedInUser
-            };
-        case PROFILE_ACTIONS_TYPE.SET_DISPLAYED_PROFILE:
-            return {
-                ...state,
-                displayedProfile: action.payload.displayedProfile
             };
         case PROFILE_ACTIONS_TYPE.SET_PROFILE_LOADING_STATUS:
             return {
@@ -73,13 +67,20 @@ export const profileReducer = (state: ProfileInitialStateType = profileInitialSt
                 ...state,
                 status: action.payload.status
             };
+        case PROFILE_ACTIONS_TYPE.ADD_LIKE:
+            return {
+                ...state,
+                posts: state.posts.map(post => post.id === action.payload.postId
+                    ? {...post, likesCount: ++post.likesCount}
+                    : post)
+            };
         default:
             return state;
     }
 }
 //
 
-type ThunkType = AppThunk<ProfileActionsType|authActionsType>
+type ThunkType = AppThunk<ProfileActionsType | authActionsType>
 
 export const setLoggedInUserTC = (userId: string): ThunkType => {
     return (dispatch, getState) => {
@@ -88,12 +89,16 @@ export const setLoggedInUserTC = (userId: string): ThunkType => {
             .then(response => {
                 dispatch(actions.setLoggedInUserAC(response.data))
                 const authData = getState().authentication
+                /**
+                 * invoke setting of logged in user avatar
+                 */
                 if (authData.id === response.data.userId
                     && authData.avatar !== '') {
                     dispatch(setAuthorisedUserAvatarAC(response.data.photos.small))
                 }
             })
             .catch(err => {
+                console.log(err)
             })
             .finally(() => {
                 dispatch(actions.setLoadingStatusAC(false))

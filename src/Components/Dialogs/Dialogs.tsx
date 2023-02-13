@@ -2,16 +2,15 @@ import React from 'react';
 import s from './Dialogs.module.css'
 import {Message} from "./Message";
 import {DialogItem} from "./DialogItem";
-import {AddItemForm} from "../Common/AddItemForm/AddItemForm";
 import {DialogsInitialStateType} from "../../redux/reducers/dialogs-add-reducer";
+import {NewMessage} from "./NewMessage";
 
 type DialogsPropsType = {
     dialogsPage: DialogsInitialStateType
-    addMessage: ()=> void
-    updateTextArea: (value: string)=> void
+    addMessage: (message: string)=> void
 }
 
-export const Dialogs =React.memo( (props: DialogsPropsType) => {
+export const Dialogs = (props: DialogsPropsType) => {
 
     return (
         <div className={s.dialogs_wrapper}>
@@ -33,15 +32,10 @@ export const Dialogs =React.memo( (props: DialogsPropsType) => {
                     />
                 )}
                 <div>
-                    <AddItemForm onClick={props.addMessage}
-                                 onChange={props.updateTextArea}
-                                 title={'Add'}
-                                 value={props.dialogsPage.newMessage}
-                    />
+                    <NewMessage addMessage={props.addMessage}/>
                 </div>
             </div>
         </div>
     );
-});
-
+};
 

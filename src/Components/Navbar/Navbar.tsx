@@ -1,23 +1,19 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import s from './Navbar.module.css'
-import {useAppDispatch, useAppSelector} from "../../redux/hooks";
-import {setDisplayedProfileAC} from "../../redux/reducers/profile/actions";
+import { useAppSelector} from "../../redux/hooks";
 
 export const Navbar = () => {
-    const dispatch = useAppDispatch()
     const id = useAppSelector(state => state.authentication.id)
-    const profileClickHandler = () => {
-        dispatch(setDisplayedProfileAC(null))
-    }
     return (
         <div>
             <div>
                 <NavLink className={NavLink => NavLink.isActive
                     ? s.active
                     : s.item}
-                         to='/profile/27337'
-                         onClick={profileClickHandler}> Profile</NavLink>
+                         to={'/profile/' + id}>
+                    Profile
+                </NavLink>
             </div>
             <div>
                 <NavLink className={NavLink => NavLink.isActive

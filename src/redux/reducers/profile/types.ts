@@ -6,16 +6,15 @@ export type ProfileActionsType = ReturnType<InferValueTypes<typeof actions>>
 export enum PROFILE_ACTIONS_TYPE {
     ADD_POST = 'ADD_POST',
     SET_LOGGED_USER = 'SET_LOGGED_USER',
-    SET_DISPLAYED_PROFILE = 'SET_DISPLAYED_PROFILE',
     SET_PROFILE_LOADING_STATUS = 'SET_PROFILE_LOADING_STATUS',
     SET_STATUS = 'SET_STATUS',
+    ADD_LIKE = 'ADD_LIKE',
 }
 
 export type ProfileInitialStateType = {
     loggedInUser: ProfileType | null
-    displayedProfile: ProfileType | null
     status: string
-    posts: Array<PostsType>
+    posts: Array<PostType>
     loadingStatus: boolean
 }
 export type ContactsType = {
@@ -40,7 +39,7 @@ export type ProfileType = {
         large: string | null
     }
 }
-export type PostsType = {
+export type PostType = {
     id: number
     message: string
     likesCount: number

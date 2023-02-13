@@ -1,14 +1,15 @@
-import React, {ComponentType, useEffect} from "react";
+import React, {ComponentType} from "react";
 import {connect} from "react-redux";
 import {AppRootStateType} from "../redux/redux-store";
 import {Navigate} from "react-router-dom";
+import {selectIsLogin} from "../redux/selectors";
 
 export type MapStatePropsType = {
     isLogin: boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        isLogin: state.authentication.isLogin
+        isLogin: selectIsLogin(state),
     }
 }
 
@@ -24,5 +25,5 @@ export function withAuthRedirect<T>(Component: ComponentType<T>) {
     }
 
 
-    return connect(mapStateToProps,{})(RedirectComponent)
+    return connect(mapStateToProps, {})(RedirectComponent)
 }

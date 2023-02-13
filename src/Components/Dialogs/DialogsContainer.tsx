@@ -1,8 +1,11 @@
 import {connect} from "react-redux";
 import {Dialogs} from "./Dialogs";
-import {addNewMessageAC, DialogsInitialStateType, updateNewMessageAC} from "../../redux/reducers/dialogs-add-reducer";
+import {addNewMessageAC, DialogsInitialStateType} from "../../redux/reducers/dialogs-add-reducer";
 import React from "react";
 import {AppDispatchType, AppRootStateType} from "../../redux/redux-store";
+import {selectDialogsPage} from "../../redux/selectors";
+import {compose} from "redux";
+import {withAuthRedirect} from "../../hoc/withAuthRedirect";
 
 
 
@@ -10,23 +13,24 @@ export type MapStatePropsType = {
     dialogsPage: DialogsInitialStateType
 }
 export type mapDispatchToPropsType = {
-    addMessage: () => void
-    updateTextArea: (value: string) =>void
+    addMessage: (message: string) => void
 }
 const mapStateToProps = (state: AppRootStateType): MapStatePropsType => {
     return {
-        dialogsPage: state.dialogsPage
+        dialogsPage: selectDialogsPage(state)
     }
 }
 const mapDispatchToProps = (dispatch: AppDispatchType): mapDispatchToPropsType => {
     return {
-        addMessage: () => {
-            dispatch(addNewMessageAC())
+        addMessage: (message: string) => {
+            dispatch(addNewMessageAC(message))
         },
-        updateTextArea: (value: string) => {
-            dispatch(updateNewMessageAC(value))
-        }
-
     }
 }
-export const DialogsContainer =React.memo( connect(mapStateToProps, mapDispatchToProps)(Dialogs))
+
+export const DialogsContainer = compose<React.ComponentType>(
+    withAuthRedirect,
+    connect(mapStateToProps, mapDispatchToProps),
+    React.memo,
+)(Dialogs)
+
